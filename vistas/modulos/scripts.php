@@ -1,0 +1,13 @@
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script-->
+<!--script>window.jQuery || document.write('<script src="<?php echo SERVERURL; ?>vistas/js/jquery-3.4.1.min.js"><\/script>')</script-->
+<script src="<?php echo SERVERURL; ?>vistas/js/jquery-3.4.1.min.js"></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/popper.min.js"></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/bootstrap.min.js"></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/vue.js"></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/axios.js"></script>
+<!--script src="<?php echo SERVERURL; ?>vistas/js/material.min.7js" ></script>
+<script src="<?php echo SERVERURL; ?>vistas/dt/datatables.min.js"></script-->
+<script src="<?php echo SERVERURL; ?>vistas/js/jquery.mCustomScrollbar.concat.min.js" ></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/sweetalert2.all.min.js" ></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/webcam.min.js" ></script>
+<script src="<?php echo SERVERURL; ?>vistas/js/main.js" ></script>
