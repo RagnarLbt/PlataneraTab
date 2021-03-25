@@ -229,7 +229,7 @@
 		}
 
 		protected function listaBosasDiarias($embarque, $fecha){
-			$sql=mainModel::conectar()->prepare("SELECT bd.id, bd.numero, bd.id_embarque, bd.fecha, bd.hora, bd.pelador, CONCAT(p.nombre, ' ', p.Ap_p, ' ', p.Ap_m) nombre, bd.valor as cantidad_bolsas_pe FROM bolsas_diarias bd, peladores p, bolsas_pelador bp WHERE bd.id_embarque=$embarque AND bd.fecha='".$fecha."' AND p.id=bd.pelador AND bp.id_pelador=bd.pelador AND bp.fecha_trabajo_pe=bd.fecha AND bp.id_embarque=bd.id_embarque ORDER BY bd.numero DESC LIMIT 11");			
+			$sql=mainModel::conectar()->prepare("SELECT bd.id, bd.numero, bd.id_embarque, bd.fecha, bd.hora, bd.pelador, CONCAT(p.nombre, ' ', p.Ap_p, ' ', p.Ap_m) nombre, bd.valor as cantidad_bolsas_pe FROM bolsas_diarias bd, peladores p, bolsas_pelador bp WHERE bd.id_embarque=$embarque AND bd.fecha='".$fecha."' AND p.id=bd.pelador AND bp.id_pelador=bd.pelador AND bp.fecha_trabajo_pe=bd.fecha AND bp.id_embarque=bd.id_embarque ORDER BY bd.numero DESC LIMIT 11");
 			$sql->execute();
 			return $sql;
 		}
@@ -244,7 +244,7 @@
 			$query=mainModel::conectar()->prepare("SELECT pelador_extra.pago,pelador_extra.trabajo, pelador_extra.id as idE, pelador_extra.id_bolsaspelador as idBP,
 				peladores.id, concat(peladores.nombre,' ', peladores.Ap_p,' ', peladores.Ap_m) as nombre, pelador_extra.concepto,
 				pelador_extra.fecha from bolsas_pelador INNER join pelador_extra ON bolsas_pelador.id=pelador_extra.id_bolsaspelador
-				INNER JOIN peladores ON bolsas_pelador.id_pelador=peladores.id WHERE bolsas_pelador.id_embarque=$idEmb  HAVING pelador_extra.trabajo !=0");
+				INNER JOIN peladores ON bolsas_pelador.id_pelador=peladores.id WHERE bolsas_pelador.id_embarque=$idEmb AND bolsas_pelador.estado != 0 HAVING pelador_extra.trabajo !=0");
 			$query->execute();
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}

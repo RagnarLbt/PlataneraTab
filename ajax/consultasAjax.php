@@ -199,6 +199,9 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==47){
         $data=$instGasto->nombreProd();
     }
+    if (isset($_POST['option']) && $_POST['option']==48){
+        $data=$instGasto->maxProd();
+    }
     print json_encode($data, JSON_UNESCAPED_UNICODE);
 }else{
     session_start(['name'=>'PT']);

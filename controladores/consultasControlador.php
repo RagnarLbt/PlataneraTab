@@ -34,6 +34,14 @@ class consultasControlador extends consultasModelo{
         WHERE productores.id=$id");
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+   //valor maximo de fruta  
+
+    public function maxProd(){
+       
+        $sql=mainModel::ejecutar_consulta_simple("SELECT max(peso_kg) as m from fruta");
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function consultaEmbarque2_controlador(){
         $id = $_POST['id'];
         $id2 = $_POST['id2'];
@@ -541,7 +549,7 @@ class consultasControlador extends consultasModelo{
         //Todos los peladores un embarque
         if($idPel[0]==9999 && $idEmb!=0 && $idEmb2==0){
             $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m)
-             as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+             as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_embarque=$idEmb
             GROUP BY bolsas_pelador.id_pelador
@@ -550,7 +558,7 @@ class consultasControlador extends consultasModelo{
         }
         //Todos los productores rango de embarque
         elseif($idPel[0]==9999 && $idEmb!=0 && $idEmb2!=0){
-            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha, sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_embarque BETWEEN $idEmb and $idEmb2
             GROUP BY  bolsas_pelador.id_pelador
@@ -561,7 +569,7 @@ class consultasControlador extends consultasModelo{
         //Un pelador un embarque
         else if (count($idPel)==1 && $idEmb!=0 && $idEmb2==0 ){
             $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre,
-             bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+             bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha, sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_pelador=$idPel[0] and bolsas_pelador.id_embarque=$idEmb
             GROUP BY  bolsas_pelador.id_pelador order by bolsas_pelador.id_pelador asc");
@@ -569,7 +577,7 @@ class consultasControlador extends consultasModelo{
         }
         //Un pelador rango de embarque
         else if (count($idPel)==1 && $idEmb!=0 && $idEmb2!=0 ){
-            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_pelador=$idPel[0] and bolsas_pelador.id_embarque BETWEEN $idEmb and $idEmb2
             GROUP BY  bolsas_pelador.id_pelador order by bolsas_pelador.id_pelador asc");
@@ -579,7 +587,7 @@ class consultasControlador extends consultasModelo{
         elseif(count($idPel)>1 && $idEmb!=0 && $idEmb2==0){
             $array = $idPel;
             $Pel = implode(",", $array);
-            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+            $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_pelador in ($Pel) and bolsas_pelador.id_embarque= $idEmb
             GROUP BY  bolsas_pelador.id_pelador order by bolsas_pelador.id_pelador asc");
@@ -591,7 +599,7 @@ class consultasControlador extends consultasModelo{
             $array = $idPel;
             $Pel = implode(",", $array);
             $query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m) as nombre, 
-            bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+            bolsas_pelador.id_embarque, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas, pago_pe from bolsas_pelador
             INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
             where bolsas_pelador.id_pelador in ($Pel) and bolsas_pelador.id_embarque BETWEEN $idEmb and $idEmb2
              GROUP BY  bolsas_pelador.id_pelador order by bolsas_pelador.id_pelador asc        

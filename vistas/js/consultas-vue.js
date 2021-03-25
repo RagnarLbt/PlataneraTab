@@ -39,18 +39,18 @@ const consultas =new Vue({
     datosX:[],
     a1:[],
     a2:[],
-       //consulta trabajadores
-       listaTrabP:[],
-       fech1:'',
-       fech2:'',
-       listaPB:[],
-       listaPBFecha:[],
-       idPel:[],
-       //Bolseros
-       listaB:[],
-       idBol:0,
-       listaBPagoEmb:[],
-       listaBPagoFech:[],
+  //consulta trabajadores
+    listaTrabP:[],
+    fech1:'',
+    fech2:'',
+    listaPB:[],
+    listaPBFecha:[],
+    idPel:[],
+  //Bolseros
+    listaB:[],
+    idBol:0,
+    listaBPagoEmb:[],
+    listaBPagoFech:[],
   //Consulta grafica productor
     listaYProd:[],
     listaXProd:[],
@@ -72,26 +72,27 @@ const consultas =new Vue({
     listaYRend:[],
     listaXProd3:[],
     p3:[],
+    max:0,
     pr3:[],
     p4:[],
   //Datos consulta 4 productor
-  listaP4:[],
-  listaP4Fecha:[],
-  listaProductor:[],
-  idPro:[],
-  idEmb:0,
-  idEmb2:0,
-  listaYProd4:[],
-  listaXProd4:[],
-  listaYProd4F:[],
-  listaXProd4F:[],
-  p5:[],
-  p6:[],
-  p5F:[],
-  p6F:[],
-  listaFrutaP:[],
-  idProductor:0,
-  idEmbarque :0,
+    listaP4:[],
+    listaP4Fecha:[],
+    listaProductor:[],
+    idPro:[],
+    idEmb:0,
+    idEmb2:0,
+    listaYProd4:[],
+    listaXProd4:[],
+    listaYProd4F:[],
+    listaXProd4F:[],
+    p5:[],
+    p6:[],
+    p5F:[],
+    p6F:[],
+    listaFrutaP:[],
+    idProductor:0,
+    idEmbarque :0,
   //Consulta grafica embarque
     listaYEmb1:[],
     listaXEmb1:[],
@@ -101,65 +102,65 @@ const consultas =new Vue({
     c2y:[],
 
  //Aguinaldo
+    listAguiEmb:[],
+    aY:[],
+    aX:[],
+    aguinaldoY:[],
+    aguinaldoX :[],
 
-listAguiEmb:[],
-aY:[],
-aX:[],
-aguinaldoY:[],
-aguinaldoX :[],
-
-listAguiFech:[],
-afY:[],
-afX:[],
-aguinaldoYfech:[],
-aguinaldoXfech:[],
+    listAguiFech:[],
+    afY:[],
+    afX:[],
+    aguinaldoYfech:[],
+    aguinaldoXfech:[],
 //Pago a peladores
-listPelFech:[],
-listPelEmb:[],
+  listPelFech:[],
+  listPelEmb:[],
 
-ppY:[],
-ppX:[],
-listaPagoPelY:[],
-listaPagoPelX:[],
+  ppY:[],
+  ppX:[],
+  listaPagoPelY:[],
+  listaPagoPelX:[],
 
-ppfY:[],
-ppfX:[],
-listaPagoPelFechaY:[],
-listaPagoPelFechaX:[],
+  ppfY:[],
+  ppfX:[],
+  listaPagoPelFechaY:[],
+  listaPagoPelFechaX:[],
+  totalpago:0,
 
 //Abonos de productores
 
-listAboEmb:[],
-listAboFech:[],
-  //Rendimiento de embarque 
+  listAboEmb:[],
+  listAboFech:[],
+//Rendimiento de embarque 
     listaRE:[],
     idPel:0,
-  //Reportes
+//Reportes
     id_reporte:0,
     listaDatReporte: [],
 //Grafica Bolsas peladores
-t1Y:[],
-t1X:[],
-listat1Y:[],
-listat1X:[],
-t2Y:[],
-t2X:[],
-listat2Y:[],
-listat2X:[],
+  t1Y:[],
+  t1X:[],
+  listat1Y:[],
+  listat1X:[],
+  t2Y:[],
+  t2X:[],
+  listat2Y:[],
+  listat2X:[],
 
 //Pago Bolseros
-pbY:[],
-pbX:[],
-listarPagoBolseroY:[],
-listarPagoBolseroX:[],
+  pbY:[],
+  pbX:[],
+  listarPagoBolseroY:[],
+  listarPagoBolseroX:[],
 
-pbfY:[],
-pbfX:[],
-listarPagoBolseroFechaY:[],
-listarPagoBolseroFechaX:[],
+  pbfY:[],
+  pbfX:[],
+  listarPagoBolseroFechaY:[],
+  listarPagoBolseroFechaX:[],
 
-  },
-  methods:{
+},
+methods:{
   //Botones
     btnBuscarId(id, id2){
       if(id!=0){
@@ -190,11 +191,13 @@ listarPagoBolseroFechaX:[],
     },
     listarPeladoresBolsas(idPel,idEmb, idEmb2){
       this.totalfech=0;
+      this.totalpago=0;
       axios.post(url_consultas,{option:27,idPel:idPel,idEmb:idEmb, idEmb2:idEmb2 }). then(response =>{
         this.listaPB = response.data;
-        //console.log(this.listaPB);
+        
         for(dat of response.data){
           this.totalfech=(parseInt(this.totalfech)+parseInt(dat.bolsas));
+          this.totalpago=(parseInt(this.totalpago)+parseInt(dat.pago_pe))
         }
       });
     },
@@ -216,7 +219,7 @@ listarPagoBolseroFechaX:[],
     listarPeladoresBolsasFecha(idPel,fech1, fech2){
       axios.post(url_consultas,{option:28,idPel:idPel,fech1:fech1, fech2:fech2 }). then(response =>{
         this.listaPBFecha = response.data;
-        console.log(this.listaPBFecha);
+        
       });
     },
 //Bolseros pagos
@@ -253,20 +256,20 @@ listarPagoBolseroFechaX:[],
     //lista bolseros select
     listarBolserosPagos(){
       axios.post(url_trabajador,{option:5}). then(response =>{
-        this.listaB = response.data;
-            //console.log(this.listaB);
-        });
+          this.listaB = response.data;
+          
+      });
     },
     listaBolEmbarque(idBol,idEmb, idEmb2){
       axios.post(url_consultas,{option:29,  idBol:idBol,idEmb:idEmb, idEmb2:idEmb2}). then(response =>{
         this.listaBPagoEmb = response.data;
-            //console.log(response.data);
+            
         });
     },
     listaBolFecha(idBol,fech1, fech2){
       axios.post(url_consultas,{option:30, idBol:idBol,fech1:fech1, fech2:fech2}). then(response =>{
         this.listaBPagoFech = response.data;
-            //console.log(response.data);
+            
         });
     },
 
@@ -282,7 +285,7 @@ listarPagoBolseroFechaX:[],
     listaAguiFecha(fech1, fech2){
       axios.post(url_consultas,{option:31, fech1:fech1, fech2:fech2}). then(response =>{
         this.listAguiFech = response.data;
-            //console.log(response.data);
+            
         });
     },
     btnAguinaldoEmb(idEmb, idEmb2){
@@ -294,7 +297,7 @@ listarPagoBolseroFechaX:[],
     listaAguiEmb(idEmb, idEmb2){
       axios.post(url_consultas,{option:32, idEmb:idEmb, idEmb2:idEmb2}). then(response =>{
         this.listAguiEmb = response.data;
-            //console.log(response.data);
+            
         });
     },
     //---Abonos de productores---
@@ -305,7 +308,7 @@ listarPagoBolseroFechaX:[],
     listaAbonoFecha(idPro,fech1, fech2){
       axios.post(url_consultas,{option:34, idPro:idPro,fech1:fech1, fech2:fech2}). then(response =>{
         this.listAboFech = response.data;
-            //console.log(response.data);
+            
         });
     },
     btnAbonoEmb(idPro,idEmb, idEmb2){
@@ -314,7 +317,7 @@ listarPagoBolseroFechaX:[],
     listaAbonoEmb(idPro,idEmb, idEmb2){
       axios.post(url_consultas,{option:35,idPro:idPro, idEmb:idEmb, idEmb2:idEmb2}). then(response =>{
         this.listAboEmb = response.data;
-            console.log(response.data);
+            
         });
     },
     //Pago peladores
@@ -329,11 +332,11 @@ listarPagoBolseroFechaX:[],
     listaPagoFecha(idPel,fech1, fech2){
       axios.post(url_consultas,{option:37, idPel:idPel,fech1:fech1, fech2:fech2}). then(response =>{
         this.listPelFech = response.data;
-            //console.log(response.data);
+            
         });
     },
     btnPagoEmb(idPel,idEmb, idEmb2){
-      console.log(idEmb2);
+      
         this.listaPagoEmb(idPel,idEmb, idEmb2);
         this.listarPagoPelY(idPel,idEmb, idEmb2);
       this.listarPagoPelX(idPel,idEmb, idEmb2);
@@ -341,7 +344,7 @@ listarPagoBolseroFechaX:[],
     listaPagoEmb(idPel,idEmb, idEmb2){
       axios.post(url_consultas,{option:36,idPel:idPel, idEmb:idEmb, idEmb2:idEmb2}). then(response =>{
         this.listPelEmb = response.data;
-            console.log(this.listPelEmb);
+            
         });
     },
     btnBuscarR(fecha1, fecha2){
@@ -377,6 +380,7 @@ listarPagoBolseroFechaX:[],
       }
     },
     btnConsultaP2(idProd, fecha1p2, fecha2p2){
+      
       if(idProd!=0 && fecha1p2!='' && fecha2p2!=''){
           this.listarProd2(idProd, fecha1p2, fecha2p2);
           this.listarDatosYProd2(idProd, fecha1p2, fecha2p2);
@@ -437,7 +441,7 @@ listarPagoBolseroFechaX:[],
     listarProd4Fecha(idPro, fech1, fech2){
      this.totalfech=0;
       axios.post(url_consultas,{option:33,idPro:idPro , fech1:fech1, fech2:fech2}).then(response=>{
-       // console.log(response.data);
+       
         this.listaP4Fecha=response.data;  
         
         for(dat of response.data){
@@ -640,7 +644,6 @@ descargarGrafica(id, nombre){
       this.cargarGraficaL(this.a1, this.a2,  "Costo", 'graficaG', 'Gastos de los embarques entre las fechas: '+f1+' a '+f2+'');
     },
     btnGraficaP(f1, f2){
-      
       this.cargarGraficaL(this.b1, this.b2, 'Total Kilos',  'graficaP','Gráfica de productores etre las fechas:'+f1+' a '+f2+'');
    },
    //Nuevas consultas
@@ -649,7 +652,7 @@ descargarGrafica(id, nombre){
    },
    btnGraficaP3(){
     // this.cargarGraficaL(this.p3, this.p4, 'Kilos', 'graficaP3');
-     this.cargarGraficaProm(this.p3,this.p4, this.prom,'Fruta', 'graficaP3', 'Historial de  productor: '+this.nombreGrafica+'');
+     this.cargarGraficaProm(this.p3,this.p4, this.prom,'Fruta', 'graficaP3', 'Historial de  productor: '+this.nombreGrafica+'',this.max );
      this.cargarGraficaL(this.pr3, this.p4, 'Rendimiento', 'graficaRend','Rendimiento productor: '+this.nombreGrafica+' ');
 
    },
@@ -733,7 +736,7 @@ btnGraficaE(f1, f2){
 
 
     //Grafica con promedio
-    cargarGraficaProm(datosY, datosX,promedio, texto, id, titulo){
+    cargarGraficaProm(datosY, datosX,promedio, texto, id, titulo, max){
       var ctx = document.getElementById(id).getContext('2d');
       if (window.graficaD) {
         window.graficaD.clear();
@@ -767,8 +770,8 @@ btnGraficaE(f1, f2){
                 yAxes: [{
                     ticks: {
                         suggestedMin: 0,
-                        suggestedMax: 100000,
-                        stepSize: 10000
+                        suggestedMax: max,
+                        stepSize: 100
                     }
                 }]
             },
@@ -783,11 +786,11 @@ btnGraficaE(f1, f2){
     },
     cargarGraficaL(datosY, datosX, texto , id,titulo){
       var ctx = document.getElementById(id).getContext('2d');
-      if (window.grafica) {
+      if(window.grafica){
         window.grafica.clear();
         window.grafica.destroy();
       }
-      //var ctx = document.getElementById(id).getContext('2d');
+      
       window.grafica = new Chart(ctx, {
           type: 'line',
           data: {
@@ -884,7 +887,7 @@ btnGraficaE(f1, f2){
     listarEmbId(id, id2){
       axios.post(url_consultas,{option:2, id:id, id2:id2}).then(response =>{
         this.listaId = response.data;
-        console.log(response.data);
+        
       });
       axios.post(url_consultas,{option:1, id:id,  id2:id2}).then(response =>{
         this.datosGastos = response.data;
@@ -904,30 +907,30 @@ btnGraficaE(f1, f2){
         for(cant of this.listaYEmb1){
           this.c1y.push(cant.cantidad);
         };
-        // console.log(this.c1y);
+        
       });
     },
     listarDatosXEmb:function(fecha1, fecha2){
       this.c1x=[];
       axios.post(url_consultas,{option:12, fecha1:fecha1, fecha2:fecha2}).then(response=>{
         this.listaXEmb1=response.data;
-        //   console.log(this.listaXEmb1);
+        
 
         for(cant of this.listaXEmb1){
           this.c1x.push(cant.id);
         };
-        // console.log(this.c1x);
+        
       });
     },
     listarDatosYEmb2:function(fecha1, fecha2){
       this.c2y=[];
       axios.post(url_consultas,{option:13, fecha1:fecha1, fecha2:fecha2}).then(response=>{
         this.listaYEmb2=response.data;
-        //console.log(this.listaYEmb2);
+        
         for(cant of this.listaYEmb2){
           this.c2y.push(cant.gastos);
         };
-        //console.log(this.c2y);
+        
       });
     },
   //Consulta productor
@@ -945,7 +948,7 @@ btnGraficaE(f1, f2){
     listarDetallesP(idE, idP){
       axios.post(url_consultas,{option:24, idE:idE, idP:idP}).then(response=>{
         this.html2=response.data;
-        //console.log(this.html2);
+        
       }); 
     },
     listarProd2(idProd, fecha1p2, fecha2p2){
@@ -955,15 +958,14 @@ btnGraficaE(f1, f2){
     },
     //Grafica datos Y
     listarDatosYProd2(idProd, fecha1p2, fecha2p2){
+      this.p1=[];
       axios.post(url_consultas,{option:17,idProd:idProd, fecha1p2:fecha1p2, fecha2p2:fecha2p2}).then(response=>{
         this.listaYProd2=response.data;
-          //console.log(this.listaYProd2);
 
         for(cant of this.listaYProd2){
           this.p1.push(cant.peso);
         };
-        //console.log(this.p1);
-
+        
       });
     },
     //Grafica datos x
@@ -971,12 +973,12 @@ btnGraficaE(f1, f2){
       this.p2=[];
       axios.post(url_consultas,{option:18, idProd:idProd, fecha1p2:fecha1p2, fecha2p2:fecha2p2}).then(response=>{
         this.listaXProd2=response.data;
-          //console.log(this.listaXProd2);
+          
 
         for(cant of this.listaXProd2){
           this.p2.push(cant.fecha);
         };
-       //console.log(this.p2);
+       
 
       });
     },
@@ -985,7 +987,7 @@ btnGraficaE(f1, f2){
     listarProd3:function(idProd2){
       axios.post(url_consultas,{option:15, idProd2:idProd2}).then(response=>{
         this.listaP3=response.data;
-        //console.log(response.data);
+        
       });
   
     },
@@ -994,49 +996,60 @@ btnGraficaE(f1, f2){
     listarDatosYProd3(idProd2){
       this.p3=[];
       this.pr3=[];
+     // this.max2=0;
       axios.post(url_consultas,{option:19, idProd2:idProd2}).then(response=>{
         this.listaYProd3=response.data;
-             console.log(this.listaYProd);
+            
 
           for(row of this.listaYProd3){
             this.p3.push(row.peso);
           };
-          //console.log(this.p3);
+          
       });
-
+//valor maximo
+axios.post(url_consultas,{option:48}).then(response=>{
+  this.max=response.data;
+  
+    for(dat of response.data){
+        this.max=dat.m;
+    }
+    
+  
+});
+//-----------
       axios.post(url_consultas,{option:26, idProd2:idProd2}).then(response=>{
         this.listaYRend=response.data;
-         console.log(response.data);
+        
 
           for(row of this.listaYRend){
             this.pr3.push(row.rend);
           };
-          console.log(this.pr3);
+         
       });
       
       axios.post(url_consultas,{option:46, idProd2:idProd2}).then(response=>{
         this.prom=response.data;
-        //console.log(this.prom);
+        
           for(dat of response.data){
               this.prom=dat.promedio;
           }
-          //console.log(this.prom );
+          
         
       });
 
    },
 //nombre de productores para grafica
    listaProductoresC(id){
-    console.log(id);
+    
     axios.post(url_consultas,{option:47, id:id}). then(response =>{        
       this.listaProductorCon = response.data;  
-      console.log(response.data);
+      
       this.nombreGrafica='';
       for(dat of response.data){
         this.nombreGrafica=dat.nombre;
       }
   
-      console.log(this.nombreGrafica);
+    
     });
   
    
@@ -1046,12 +1059,12 @@ btnGraficaE(f1, f2){
      
       axios.post(url_consultas,{option:25, idProd2:idProd2}).then(response=>{
         this.listaYRend=response.data;
-        //console.log(response.data);
+        
 
         for(row of this.listaYRend){
           this.pr3.push(row.rend);
         };
-        console.log(this.pr3);
+        
 
       });
     },
@@ -1061,12 +1074,12 @@ btnGraficaE(f1, f2){
       this.p4=[];
       axios.post(url_consultas,{option:20, idProd2:idProd2}).then(response=>{
         this.listaXProd3=response.data;
-        //   console.log(this.listaYProd);
+        
 
         for(row of this.listaXProd3){
           this.p4.push(row.embarque);
         };
-        //console.log(this.p4);
+        
 
       });
     },
@@ -1074,7 +1087,7 @@ btnGraficaE(f1, f2){
     listarProd4:function(idPro,idEmb, idEmb2){
       this.totalfech=0;
       axios.post(url_consultas,{option:16,idPro:idPro , idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
-       // console.log(response.data);
+       
         this.listaP4=response.data;
         
         for(dat of response.data){
@@ -1087,7 +1100,7 @@ btnGraficaE(f1, f2){
       axios.post(url_productor,{option:5}). then(response =>{
         
           this.listaProductor = response.data;
-         // console.log(this.listaProductor);
+         
       });
     },
 //----------Grafica bolsas peladores 
@@ -1096,12 +1109,12 @@ listarDatosT1Y(idPel, idEmb, idEmb2){
   this.t1Y=[];
   axios.post(url_consultas,{option:38,op:1, idPel:idPel, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listat1Y=response.data;
-    console.log(response.data);
+    
 
     for(row of this.listat1Y){
       this.t1Y.push(row.e);
     };
-    //console.log(this.p5);
+    
 
   });
 },
@@ -1110,12 +1123,12 @@ listarDatosT1X(idPel,idEmb, idEmb2){
   this.t1X=[];
   axios.post(url_consultas,{option:39,op:1, idPel:idPel,  idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listat1X=response.data;
-    console.log(response.data);
+    
 
     for(row of this.listat1X){
       this.t1X.push(row.e);
     };
-   // console.log(this.p6);
+   
 
   });
 },
@@ -1124,12 +1137,10 @@ listarDatosT2Y(idPel, fech1, fech2){
   this.t2Y=[];
   axios.post(url_consultas,{option:38,op:2, idPel:idPel, fech1:fech1, fech2:fech2}).then(response=>{
     this.listat2Y=response.data;
-console.log(response.data);
 
     for(row of this.listat2Y){
       this.t2Y.push(row.e);
     };
-    console.log(this.t2Y);
 
   });
 },
@@ -1138,12 +1149,12 @@ listarDatosT2X(idPel, fech1, fech2){
   this.t2X=[];
   axios.post(url_consultas,{option:39, op:2, idPel:idPel, fech1:fech1, fech2:fech2}).then(response=>{
     this.listat2X=response.data;
-  //   console.log(response.data);
+  
 
     for(row of this.listat2X){
       this.t2X.push(row.e);
     };
-    console.log(this.t2X);
+    
 
   });
 },
@@ -1153,12 +1164,12 @@ listarPagoBolY(idBol, idEmb, idEmb2){
   this.pbY=[];
   axios.post(url_consultas,{option:42,op:1, idBol:idBol, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listarPagoBolseroY=response.data;
-    //console.log(response.data);
+    
 
     for(row of this.listarPagoBolseroY){
       this.pbY.push(row.e);
     };
-   console.log(this.pbY);
+   
 
   });
 },
@@ -1167,12 +1178,12 @@ listarPagoBolX(idBol,idEmb, idEmb2){
   this.pbX=[];
   axios.post(url_consultas,{option:43,op:1, idBol:idBol,  idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listarPagoBolseroX=response.data;
-    console.log(response.data);
+    
 
     for(row of this.listarPagoBolseroX){
       this.pbX.push(row.e);
     };
-   console.log(this.pbX);
+   
 
   });
 },
@@ -1181,12 +1192,12 @@ listarPagoBolFechaY(idBol, fech1, fech2){
   this.pbfY=[];
   axios.post(url_consultas,{option:42,op:2, idBol:idBol, fech1:fech1, fech2:fech2}).then(response=>{
     this.listarPagoBolseroFechaY=response.data;
-console.log(response.data);
+
 
     for(row of this.listarPagoBolseroFechaY){
       this.pbfY.push(row.e);
     };
-    console.log(this.pbfY);
+    
 
   });
 },
@@ -1195,12 +1206,12 @@ listarPagoBolFechaX(idBol, fech1, fech2){
   this.pbfX=[];
   axios.post(url_consultas,{option:43, op:2, idBol:idBol, fech1:fech1, fech2:fech2}).then(response=>{
     this.listarPagoBolseroFechaX=response.data;
-  console.log(response.data);
+  
 
     for(row of this.listarPagoBolseroFechaX){
       this.pbfX.push(row.e);
     };
-    console.log(this.pbfX);
+    
 
   });
 },
@@ -1211,12 +1222,12 @@ listarPagoPelY(idPel, idEmb, idEmb2){
   this.ppY=[];
   axios.post(url_consultas,{option:44,op:1, idPel:idPel, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listaPagoPelY=response.data;
-    console.log(response.data);
+    
 
     for(row of this.listaPagoPelY){
       this.ppY.push(row.e);
     };
-    console.log(this.ppY);
+    
 
   });
 },
@@ -1225,12 +1236,12 @@ listarPagoPelX(idPel,idEmb, idEmb2){
   this.ppX=[];
   axios.post(url_consultas,{option:45,op:1, idPel:idPel,  idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
     this.listaPagoPelX=response.data;
-    console.log(response.data);
+    
 
     for(row of this.listaPagoPelX){
       this.ppX.push(row.e);
     };
-   console.log(this.ppX);
+   
 
   });
 },
@@ -1239,27 +1250,27 @@ listarPagoPelFechaY(idPel, fech1, fech2){
   this.ppfY=[];
   axios.post(url_consultas,{option:44,op:2, idPel:idPel, fech1:fech1, fech2:fech2}).then(response=>{
     this.listaPagoPelFechaY=response.data;
-console.log(this.listaPagoPelFechaY);
+
 
     for(row of this.listaPagoPelFechaY){
       this.ppfY.push(row.e);
     };
-    console.log(this.ppfY);
+    
 
   });
 },
 
 listarPagoPelFechaX(idPel, fech1, fech2){
   this.ppfX=[];
-  console.log(this.fech1);
+  
   axios.post(url_consultas,{option:45, op:2, idPel:idPel, fech1:fech1, fech2:fech2}).then(response=>{
     this.listaPagoPelFechaX=response.data;
-  console.log(this.listaPagoPelFechaX);
+  
 
     for(row of this.listaPagoPelFechaX){
       this.ppfX.push(row.e);
     };
-    console.log(this.ppfX);
+    
 
   });
 },
@@ -1268,12 +1279,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     this.aY=[];
     axios.post(url_consultas,{option:40,op:1, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
       this.aguinaldoY =response.data;
-      console.log(response.data);
+      
   
       for(row of this.aguinaldoY ){
         this.aY.push(row.e);
       };
-     console.log(this.aY);
+     
   
     });
   },
@@ -1282,12 +1293,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     this.aX=[];
     axios.post(url_consultas,{option:41,op:1,  idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
       this.aguinaldoX =response.data;
-      console.log(response.data);
+      
   
       for(row of this.aguinaldoX ){
         this.aX.push(row.e);
       };
-     console.log(this.aX);
+     
   
     });
   },
@@ -1296,12 +1307,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     this.afY=[];
     axios.post(url_consultas,{option:40,op:2,  fech1:fech1, fech2:fech2}).then(response=>{
       this.aguinaldoYfech=response.data;
-  console.log(response.data);
+  
   
       for(row of this.aguinaldoYfech){
         this.afY.push(row.e);
       };
-      console.log(this.afY);
+      
   
     });
   },
@@ -1310,12 +1321,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     this.afX=[];
     axios.post(url_consultas,{option:41, op:2, fech1:fech1, fech2:fech2}).then(response=>{
       this.aguinaldoXfech=response.data;
-      console.log(response.data);
+      
   
       for(row of this.aguinaldoXfech){
         this.afX.push(row.e);
       };
-      console.log(this.afX);
+      
   
     });
   },
@@ -1326,12 +1337,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
       this.p5=[];
       axios.post(url_consultas,{option:21, op:1, idPro:idPro, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
         this.listaYProd4=response.data;
-        console.log(this.listaYProd4);
+        
   
         for(row of this.listaYProd4){
           this.p5.push(row.e);
         };
-        //console.log(this.p5);
+        
   
       });
     },
@@ -1341,12 +1352,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
       this.p5F=[];
       axios.post(url_consultas,{option:21,op:2, idPro:idPro, fech1:fech1, fech2:fech2}).then(response=>{
         this.listaYProd4F=response.data;
-    // console.log(response.data);
+    
   
         for(row of this.listaYProd4F){
           this.p5F.push(row.e);
         };
-        console.log(this.p5F);
+        
   
       });
     },
@@ -1355,12 +1366,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
       this.p6F=[];
       axios.post(url_consultas,{option:22, op:2, idPro:idPro, fech1:fech1, fech2:fech2}).then(response=>{
         this.listaXProd4F=response.data;
-      //   console.log(response.data);
+      
   
         for(row of this.listaXProd4F){
           this.p6F.push(row.e);
         };
-        console.log(this.p6F);
+        
   
       });
     },
@@ -1369,12 +1380,12 @@ listarPagoPelFechaX(idPel, fech1, fech2){
       this.p6=[];
       axios.post(url_consultas,{option:22,op:1, idPro:idPro, idEmb:idEmb, idEmb2:idEmb2}).then(response=>{
         this.listaXProd4=response.data;
-         console.log(this.listaXProd4);
+         
   
         for(row of this.listaXProd4){
           this.p6.push(row.e);
         };
-       // console.log(this.p6);
+       
   
       });
     },
@@ -1383,11 +1394,11 @@ listarPagoPelFechaX(idPel, fech1, fech2){
       this.b1=[];
       axios.post(url_consultas,{option:9, fecha1p:fecha1p, fecha2p:fecha2p}).then(response=>{
         this.listaYProd=response.data;
-         // console.log(this.listaYProd);
+         
         for(cant of this.listaYProd){
           this.b1.push(cant.total);
         };
-     // console.log(this.b1);
+     
 
       });
     },
@@ -1399,7 +1410,7 @@ listarPagoPelFechaX(idPel, fech1, fech2){
         for(cant of this.listaXProd){
           this.b2.push(cant.id);
         };
-        //console.log(this.b2);
+        
 
       });
     },
@@ -1454,7 +1465,7 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     listarPeladores(){
       axios.post(url_trabajador,{option:4}). then(response =>{
         this.listaTrabP = response.data;
-            //console.log(this.listaTrabP);
+            
         });
     },
   //Fotos Fruta
@@ -1474,7 +1485,7 @@ listarPagoPelFechaX(idPel, fech1, fech2){
     consultarFoto(embActual, idProd){
       axios.post(url_embarque, {option:8, idProd:idProd, embActual:embActual}).then(response=>{
         this.listaFrutaP=response.data;
-        //console.log(this.listaFrutaP);
+        
       }).catch(e => {
           // Mostramos los errores
           Swal.fire({

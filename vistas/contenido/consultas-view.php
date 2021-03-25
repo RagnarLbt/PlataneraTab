@@ -227,19 +227,17 @@
                 <!--Productor individual por rango de fechas -->
                 <div class="row" id="dos" style="display: none;">
                     <div class="col-sm-12">
-                        <div class="container-fluid row justify-content-center">
+                        <div class="container-fluid row">
                             <div class="col-sm-12 form-inline">
-                                <div class="row">
-                                    <p class="col-sm-3">Productor: &nbsp;
-                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-6" v-model="idProd"  type="number" min="1" autofocus>
-                                    </p>
-                                    <p class="col-sm-5">Fechas de: &nbsp;
-                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-4" v-model="fecha1p2" type="date"  autofocus>&nbsp; a&nbsp;
-                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-4" v-model="fecha2p2" type="date"  autofocus>&nbsp;
-                                    </p>
-                                    <div class="col-sm-4">
-                                        <button type="button" @click="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="btn btn-warning btn-sm col-sm-5">Aceptar&nbsp;</button>
-                                        <button type="button" @click=" btnPDF4(idProd, fecha1p2, fecha2p2, '#productorIndividual')" class="btn btn-danger btn-sm col-sm-5"><i class="zmdi zmdi-download text-white"></i>&nbsp;PDF</button>
+                                <div class="row mb-2">
+                                    <div class="col-sm-12">
+                                        Productor:
+                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-2" v-model="idProd"  type="number" min="1" autofocus>&nbsp;
+                                        Fechas de:
+                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-3" v-model="fecha1p2" type="date"  autofocus>&nbsp;a&nbsp;
+                                        <input @keyup.enter="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="form-control col-sm-3" v-model="fecha2p2" type="date"  autofocus>&nbsp;
+                                        <button type="button" @click="btnConsultaP2(idProd, fecha1p2, fecha2p2)" class="btn btn-warning btn-sm col-sm-1">Aceptar&nbsp;</button>
+                                        <button type="button" @click=" btnPDF4(idProd, fecha1p2, fecha2p2, '#productorIndividual')" class="btn btn-danger btn-sm col-sm-1"><i class="zmdi zmdi-download text-white"></i>&nbsp;PDF</button>
                                     </div>
                                 </div>
                             </div>
@@ -598,9 +596,7 @@
                                     <option value="3">Aguinaldo por embarque</option>
                                     <option value="4">Pago bolseros</option>
                                     <option value="5">Pago peladores</option>
-                                   
                                 </select>
-                                
                             </div>
                         </div>
                     </div>
@@ -615,7 +611,6 @@
                         <div class="col col-sm-12  form-check-inline">
                             <div class="col-sm-12 col-md-4">
                                 <p>
-                                    
                                     <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" @click="ocultarFech1">
                                     <label class="form-check-label" for="inlineRadio1">Por embarque</label>
@@ -625,9 +620,9 @@
                                     <label class="form-check-label" for="inlineRadio2">Por fecha</label>
                                     </div>
                                 </p>
-                               </div>
-                              
-                        </div> <br>
+                            </div>
+                        </div>
+                        <br>
                         <div class="col-sm-12 form-inline">
                             
                             <p class="col-sm-12 col-md-4">
@@ -663,6 +658,7 @@
                                     <th class="text-center">Id Pelador</th>
                                     <th class="text-center">Nombre</th>
                                     <th class="text-center">Cantidad</th>
+                                    <th class="text-center">Pago</th>
                                 </tr>
                             </thead>
                             <tbody  class="table" id="tablass">
@@ -670,13 +666,15 @@
                                     <td class="text-left">{{list.id_pelador}}</td>
                                     <td class="text-left">{{list.nombre}}</td>
                                     <td class="text-right">{{list.bolsas}}</td>
+                                    <td class="text-right">$ {{list.pago_pe}}</td>
                                 </tr>
                             </tbody>
                             <tfooter>
                                 <tr>
                                     <td></td>
-                                    <td></td>
-                                    <td class="text-right"><strong>Total: </strong>{{totalfech}}</td>
+                                    <td><strong>Total: </strong></td>
+                                    <td class="text-right font-weight-bold">{{totalfech}}</td>
+                                    <td class="text-right font-weight-bold">$ {{totalpago}}</td>
                                 </tr>
                             </tfooter>
                         </table>

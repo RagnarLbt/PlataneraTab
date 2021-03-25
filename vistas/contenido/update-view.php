@@ -255,6 +255,7 @@
 						</div> 
 					</div>
 
+					<!-- TABLA DE GASTOS -->
 					<div class="tab-pane fade" id="pills-gastos" role="tabpanel" aria-labelledby="pills-gastos-tab">
 						<section class="container-fluid alert-info p-2">
 							<div class="col-sm-12">

@@ -31,6 +31,7 @@ const gasto = new Vue({
             listarGastosEmbarque(id){
             	axios.post(url_gastos,{option:5, id:id, con: 1}).then(response =>{
                     this.listaGastosTipo = response.data;
+                    console.log(response.data);
                 });
             },
             /* Boton para obtener todos los gastos del embarque seleccionado */
@@ -80,7 +81,7 @@ const gasto = new Vue({
                     if (result.value) {
                        axios.post(url_gastos, {option:4, embarque: this.embActual, 
                            gasto: this.idGasto, cantidad: this.cantidad, concepto: this.concepto, kilos: this.kilos_bolsas}).then(response =>{
-                            console.log(response.data);
+                            //console.log(response.data);
                             if(response.data=="OK"){
                                 this.listarGastosEmbarque(this.embActual);
                                 this.buscarGastosEmbarque(this.embActual);

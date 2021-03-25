@@ -210,6 +210,10 @@
 		if(isset($_POST['option']) && $_POST['option'] == 44){
 			$data = $intEmbarque->listaPelador();
 		}
+
+		if(isset($_POST['option']) && $_POST['option'] == 45){
+			$data = $intEmbarque->listarPealadorBolsa();
+		}
 		
         print json_encode($data, JSON_UNESCAPED_UNICODE);
 

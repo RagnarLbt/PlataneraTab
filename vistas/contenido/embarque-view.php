@@ -69,20 +69,20 @@
 				</div>
 				<div class="col-sm-12 text-center d-flex justify-content-center">
 					<div class="row">
-						<button type="submit" class="btn-sm btn btn-outline-danger mb-2"  @click="finalizarCancelar()"><i class="zmdi zmdi-close-circle"></i>&nbsp;Cancelar</button>&nbsp;
-						<button type="submit" class="btn btn-sm btn-info mb-2"  @click="finalizarDia()"><i class="zmdi zmdi-save"></i>&nbsp;Finalizar</button>&nbsp;									
+						<button type="submit" class="btn btn-outline-danger mb-2"  @click="finalizarCancelar()"><i class="zmdi zmdi-close-circle"></i>&nbsp;Cancelar</button>&nbsp;
+						<button type="submit" class="btn btn-info mb-2"  @click="finalizarDia()"><i class="zmdi zmdi-save"></i>&nbsp;Finalizar</button>&nbsp;									
 						<form method="POST" action="<?php echo SERVERURL; ?>vistas/contenido/resumen-view.php" target="_blank">
 							<input type="hidden" v-model="fecha_dia" name="fechaAct">
 							<input type="hidden" v-model="embActual" name="idEmbarque">
 							<input type="hidden" value="<?php echo $_SESSION['nombre']; ?>" name="user">
-							<button type="submit" class="col-sm-12 btn btn-sm btn-danger mb-2"><i class="zmdi zmdi-download text-white"></i>&nbsp;PDF</button>
+							<button type="submit" class="col-sm-12 btn btn-danger mb-2"><i class="zmdi zmdi-download text-white"></i>&nbsp;PDF</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="container-fluid" v-if="embActual != ''">
+		<div id="contenido_completo" class="container-fluid" v-if="embActual != ''">
 			<ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link active" id="pills-proveedores-tab" data-toggle="pill" href="#pills-proveedores" role="tab" aria-controls="pills-proveedores" aria-selected="true">REGISTRO DE FRUTA</a>
@@ -690,7 +690,7 @@
 				<!--Formulario para finalizar el embarque-->
 				<div class="tab-pane fade" id="pills-finalizar" role="tabpanel" aria-labelledby="pills-finalizar-tab">
 					<div class="col-sm-12 card">
-						<div class="row mb-5">
+						<div class="row mb-1">
 							<div class="col-sm-12 card-header p-1 bg-info text-white text-center titles">
 								Finalizar Embarque
 							</div>
@@ -767,7 +767,40 @@
 							</div>
 							<div class="col-sm-12 d-flex justify-content-center">
 								<button type="submit" class="btn btn-info mb-2" @click="btnFinalizarEmbarque()"><i class="zmdi zmdi-save"></i>&nbsp; Finalizar</button>
+								&nbsp;
+								<button type="submit" class="btn btn-sm btn-success mb-2" @click="verTablapeladores()"><i class="zmdi zmdi-eye"></i>&nbsp;Ver Reporte</button>
+								&nbsp;
+								<button id="dowPDF" style="display: none;" type="submit" class="btn btn-sm btn-danger mb-2" @click="descargarTablaPeladores()"><i class="zmdi zmdi-download"></i>&nbsp;Descargar reporte</button>
 							</div>
+						</div>
+						<br>
+						<div class="col-sm-12" id="bolsasP1" style="display: none;">
+							<table id="tablat1" class="table table-striped table-bordered table-hover table-condensed table-sm" >
+								<thead>
+									<tr class="bg-dark text-light">
+										<th class="text-center">Id Pelador</th>
+										<th class="text-center">Nombre</th>
+										<th class="text-center">No. Bolsas</th>
+										<th class="text-center">Pago</th>
+									</tr>
+								</thead>
+								<tbody  class="table" id="tablass">
+									<tr v-for="list of listaPB" >  
+										<td class="text-left">{{list.id_pelador}}</td>
+										<td class="text-left">{{list.nombre}}</td>
+										<td class="text-right">{{list.bolsas}}</td>
+										<td class="text-right">$ {{list.pago_pe}}</td>
+									</tr>
+								</tbody>
+								<tfooter>
+									<tr>
+										<td></td>
+										<td><strong>Total: </strong></td>
+										<td class="text-right font-weight-bold">{{totalfech}}</td>
+										<td class="text-right font-weight-bold">$ {{totalpago}}</td>
+									</tr>
+								</tfooter>
+							</table>
 						</div>
 					</div>
 				</div>

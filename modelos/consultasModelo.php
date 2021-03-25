@@ -31,11 +31,7 @@ class consultasModelo extends mainModel{
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
     protected function consultaProductor_modelo($fecha1p, $fecha2p){
-        $query= mainModel::conectar()->prepare("SELECT fruta.id_productores as id, CONCAT(productores.nombre, ' ', productores.Ap_p, ' ', productores.Ap_m) nombre, ROUND(SUM(productor_fruta.peso),2) as kg, productor_fruta.fecha_compra as fecha_compra, 
-          round(fruta.saldo_abono- IFNULL((prestamos.abono_fungicida+prestamos.abono_fertilizante),0),2) as total FROM fruta 
-          inner join productores on fruta.id_productores=productores.id INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta
-           LEFT JOIN prestamos on fruta.id= prestamos.id_fruta where productor_fruta.fecha_compra BETWEEN '$fecha1p' and '$fecha2p'
-            GROUP by fruta.id_productores order by fruta.id_productores ASC");
+        $query= mainModel::conectar()->prepare("SELECT fruta.id_productores as id, CONCAT(productores.nombre, ' ', productores.Ap_p, ' ', productores.Ap_m) nombre, ROUND(SUM(productor_fruta.peso),2) as kg, round(sum(productor_fruta.peso*fruta.pago-IFNULL(prestamos.abono_fungicida+prestamos.abono_fertilizante+prestamos.abono_prestamo,0)),2) as total FROM fruta inner join productores on fruta.id_productores=productores.id INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta LEFT JOIN prestamos on fruta.id= prestamos.id_fruta where productor_fruta.fecha_compra BETWEEN '$fecha1p' and '$fecha2p' GROUP by fruta.id_productores order by fruta.id_productores ASC");
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -86,9 +82,7 @@ protected function datosX_modelo($fecha1g, $fecha2g){
 }
     //Grafica Productor
 protected function datosYProd_modelo($fecha1p, $fecha2p){
-    $query=mainModel::conectar()->prepare("SELECT round(sum(fruta.peso_kg),2) as total from fruta
-    INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta
-        where productor_fruta.fecha_compra BETWEEN '$fecha1p' and '$fecha2p' GROUP by  fruta.id_productores order by fruta.id_productores ASC");
+    $query=mainModel::conectar()->prepare("SELECT ROUND(SUM(productor_fruta.peso),2) as total FROM fruta INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta where productor_fruta.fecha_compra BETWEEN '$fecha1p' and '$fecha2p' GROUP by fruta.id_productores order by fruta.id_productores ASC");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -130,17 +124,13 @@ protected function datosYEmb2_modelo($fecha1, $fecha2){
 //consulta por productor individual (rendimiento de productor por rango de fecha)
 
 protected function rendimientoRango_modelo($idProd, $fecha1, $fecha2){
-    $query=mainModel::conectar()->prepare("SELECT fruta.id_embarque as embarque,fruta.id_productores as id, CONCAT(productores.nombre, ' ', productores.Ap_p, ' ', productores.Ap_m) nombre, round(sum( fruta.peso_kg),2 )as peso,
-    productor_fruta.fecha_compra as fecha_compra from fruta inner join productores on fruta.id_productores=productores.id
-    INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta where fruta.id_productores=$idProd and productor_fruta.fecha_compra
-    BETWEEN '$fecha1' and '$fecha2' GROUP BY fruta.id_productores order by fruta.id_embarque asc
-   ");
+    $query=mainModel::conectar()->prepare("SELECT fruta.id_embarque as embarque,fruta.id_productores as id, CONCAT(productores.nombre, ' ', productores.Ap_p, ' ', productores.Ap_m) nombre, round(sum( productor_fruta.peso),2 )as peso, productor_fruta.fecha_compra as fecha_compra from fruta inner join productores on fruta.id_productores=productores.id INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta where fruta.id_productores=$idProd and productor_fruta.fecha_compra BETWEEN '$fecha1' and '$fecha2' GROUP BY fruta.id_productores order by fruta.id_embarque asc");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
     //Grafica datos en y (peso)
 protected function rendimientoRangoY_modelo($idProd,$fecha1, $fecha2){
-    $query=mainModel::conectar()->prepare("SELECT round(sum( fruta.peso_kg),2) as peso from fruta 
+    $query=mainModel::conectar()->prepare("SELECT round( fruta.peso_kg,2) as peso from fruta 
     INNER join productor_fruta on fruta.id=productor_fruta.id_fruta
     WHERE fruta.id_productores=$idProd and productor_fruta.fecha_compra BETWEEN '$fecha1' and '$fecha2'
     GROUP BY fruta.id_embarque, fruta.id_productores");

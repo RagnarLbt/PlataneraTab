@@ -833,7 +833,7 @@
 			$idBPelador=$_POST['idBP'];
 			$idExtra=$_POST['idE'];
 
-			$sql=mainModel::ejecutar_consulta_simple("CALL regPeladorExtra(4, 0, $idBPelador,  0, '', 0, '', 0, $idExtra )");
+			$sql=mainModel::ejecutar_consulta_simple("CALL regPeladorExtra(4, 0, $idBPelador,  0, '', 0, '', 0, $idExtra)");
 
 			if($sql->rowCount()>=1){
 				return "OK1null";
@@ -947,6 +947,19 @@
 			$sql=mainModel::ejecutar_consulta_simple("SELECT peladores.id, peladores.nombre, peladores.Ap_p, peladores.Ap_m from peladores");
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function listarPealadorBolsa(){
+        	$idEmb=$_POST["idEmb"];
+
+        	$query=mainModel::ejecutar_consulta_simple("SELECT bolsas_pelador.id_pelador, concat(peladores.nombre,' ',peladores.Ap_p, ' ', peladores.Ap_m)
+             	as nombre, bolsas_pelador.id_embarque, bolsas_pelador.pago_pe, bolsas_pelador.fecha_trabajo_pe as fecha ,sum(bolsas_pelador.cantidad_bolsas_pe) as bolsas from bolsas_pelador
+            	INNER JOIN peladores on bolsas_pelador.id_pelador=peladores.id
+            	where bolsas_pelador.id_embarque=$idEmb
+            	GROUP BY bolsas_pelador.id_pelador
+            	order by bolsas_pelador.id_pelador asc");
+            
+            return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
 
 	}

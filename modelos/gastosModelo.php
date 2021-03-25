@@ -53,13 +53,13 @@
 		}
 
 		protected function listaGastosRegistrados($id){
-			$query=mainModel::conectar()->prepare("SELECT gastos.id_gasto, nombre, SUM(gastos_embarque.cantidad) as total, gastos_embarque.extra FROM gastos INNER JOIN gastos_embarque ON gastos_embarque.id_gasto=gastos.id_gasto AND gastos_embarque.id_embarque=$id GROUP BY gastos.id_gasto");
+			$query=mainModel::conectar()->prepare("SELECT gastos.id_gasto, nombre, SUM(gastos_embarque.cantidad) as total, gastos_embarque.extra FROM gastos INNER JOIN gastos_embarque ON gastos_embarque.id_gasto=gastos.id_gasto AND gastos_embarque.id_embarque=$id GROUP BY gastos.id_gasto ORDER BY gastos.id_gasto");
 			$query->execute();
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
 
 		protected function listaGastosConsultas($id){
-			$query=mainModel::conectar()->prepare("SELECT gastos_embarque.id, gastos.id_gasto idg, gastos.nombre, gastos_embarque.extra, gastos_embarque.cantidad from gastos_embarque inner JOIN gastos on gastos_embarque.id_gasto= gastos.id_gasto INNER join embarque on gastos_embarque.id_embarque=embarque.id where embarque.id=$id AND gastos_embarque.cantidad>0 order by gastos_embarque.extra ASC");
+			$query=mainModel::conectar()->prepare("SELECT gastos_embarque.id, gastos.id_gasto idg, gastos.nombre, gastos_embarque.extra, gastos_embarque.cantidad from gastos_embarque inner JOIN gastos on gastos_embarque.id_gasto= gastos.id_gasto INNER join embarque on gastos_embarque.id_embarque=embarque.id where embarque.id=$id AND gastos_embarque.cantidad>0 order by gastos_embarque.id_gasto ASC");
 			$query->execute();
 			return $query->fetchAll(PDO::FETCH_ASSOC);	
 		}

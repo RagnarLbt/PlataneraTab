@@ -3,8 +3,8 @@ const embarque = new Vue({
     el: '#embarques',
     data: {
     //Datos generales
-    prodRend:0,
-    total_dia_bolsas:0,
+        prodRend:0,
+        total_dia_bolsas:0,
         totalPesoProductor:0,
         peso_captura:0,
         listaEmbarques: [], /* Lista de Embarques sin finalizar */
@@ -96,7 +96,14 @@ const embarque = new Vue({
         perdida:0,
         rendimiento: 0,
         noBolsasExistentes: 0,
-        bolsasToston:0
+        bolsasToston:0,
+    
+    //Consulta de Peladores
+        totalfech:0,
+        totalpago:0,
+        listaPB:[],
+
+
     },
     methods: {
 
@@ -176,6 +183,8 @@ const embarque = new Vue({
 
     //Finalizar Embarque
         btnFinalizarEmbarque(){
+            bolsasP1.style.display = 'none';
+            dowPDF.style.display = 'none';
             Swal.fire({
               title: 'Finalizar Embarque',
               text: "¿Esta seguro que desea finalizar el Embarque "+this.embActual+"?",
@@ -312,7 +321,6 @@ const embarque = new Vue({
                 this.auxVentana='';
                 this.embActual = this.selected;
                 this.buscardatosEmbarque(this.embActual);
-               
             }else{
                 Swal.fire({
                     icon: 'error',
@@ -1318,6 +1326,7 @@ const embarque = new Vue({
                            backdrop: false                        
                        });
                        this.listarPeladoresExtras();
+                       this.listarBolserosTodos();
                        this.listarPeladores();
                    }else{
                        Swal.fire({
@@ -1802,15 +1811,14 @@ const embarque = new Vue({
         },
         btnVerResumen(){
             document.getElementById('resumen').style.display='block';
-
-            //console.log(this.fecha_dia);
-            //console.log(this.embActual);
+            contenido_completo.style.display = 'none';
+            
             axios.post(url_embarque, {option:30, id:this.embActual, fecha:this.fecha_dia}).then(response =>{
                this.listaResumen=response.data;
-               //console.log(response.data);
             });
         },
         finalizarCancelar(){
+            contenido_completo.style.display = 'block';
             document.getElementById('resumen').style.display='none';
         },
 
@@ -1983,7 +1991,45 @@ const embarque = new Vue({
             //console.log(_seft.peso);
                 }
             });
-        }
+        },
+        verTablapeladores(){
+            this.listarPeladoresBolsas();
+            bolsasP1.style.display = 'block';
+            dowPDF.style.display = 'block';
+        },
+        descargarTablaPeladores(){
+            this.generarPDF('#tablat1',  'Bolsas del embarque:'+this.embActual);
+        },
+        listarPeladoresBolsas(){
+            this.totalfech=0;
+            this.totalpago=0;
+            axios.post(url_embarque,{option:45, idEmb: this.embActual}). then(response =>{
+                this.listaPB = response.data;
+                for(dat of response.data){
+                    this.totalfech=(parseInt(this.totalfech)+parseInt(dat.bolsas));
+                    this.totalpago=(parseInt(this.totalpago)+parseInt(dat.pago_pe));
+                }
+            });
+        },
+        generarPDF(idPDF, titulo){
+            var doc = new jsPDF("p", "mm", "a4");
+
+            doc.setFont("helvetica");
+            doc.setFontType("bold");
+            doc.setFontSize(20);
+            doc.text(100, 14, 'AGROEXPORTACIONES CHONTALPA', null, null, 'center');
+            
+            doc.setFont("Arial");
+            doc.setFontSize(11);
+            doc.setFontType("normal");
+            doc.text(100, 20, titulo, null, null, 'center');
+            doc.setFontSize(9);
+            doc.autoTable({ 
+              startY: 25,
+              html: idPDF,
+              useCss: true, })
+            doc.save("Consulta "+titulo+".pdf")
+        },
     },
     created: function(){ 
         var self=this;
