@@ -1,9 +1,11 @@
 <?php
+    
+    $peticionAjax=true;
 
-$peticionAjax=true;
-require_once "../core/configGeneral.php";
+    require_once "../core/configGeneral.php";
 
-$_POST= json_decode(file_get_contents("php://input"), true);
+    //Axios
+    $_POST = json_decode(file_get_contents("php://input"), true);
 
 if(isset($_POST['option'])){
 
@@ -142,21 +144,26 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==32){
         $data=$instGasto->aguinaldoEmb();
     }
+    
     //Rendimiento por fecha
     if (isset($_POST['option']) && $_POST['option']==33){
         $data=$instGasto->rendfecha();
     }
-     //Aguinaldos
-     if (isset($_POST['option']) && $_POST['option']==34){
+    
+    //Aguinaldos
+    if (isset($_POST['option']) && $_POST['option']==34){
         $data=$instGasto->abonosFecha();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==35){
         $data=$instGasto->abonosEmbarque();
     }
+    
      //Pago bolseros
      if (isset($_POST['option']) && $_POST['option']==36){
         $data=$instGasto->listarPagoPeladorEmb();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==37){
         $data=$instGasto->listarPagoPeladorFech();
     }
@@ -165,6 +172,7 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==38){
         $data=$instGasto->listaYBP();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==39){
         $data=$instGasto->listaXBP();
     }
@@ -173,6 +181,7 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==40){
         $data=$instGasto->listaYAguinaldo();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==41){
         $data=$instGasto->listaXAguinaldo();
     }
@@ -181,6 +190,7 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==42){
         $data=$instGasto->listaYPB();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==43){
         $data=$instGasto->listaXPB();
     }
@@ -189,20 +199,30 @@ if(isset($_POST['option'])){
     if (isset($_POST['option']) && $_POST['option']==44){
         $data=$instGasto->listaYPP();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==45){
         $data=$instGasto->listaXPP();
     }
+    
     if (isset($_POST['option']) && $_POST['option']==46){
         $data=$instGasto->promedioFruta();
     }
+    
     //Nombre de productor por id
     if (isset($_POST['option']) && $_POST['option']==47){
         $data=$instGasto->nombreProd();
     }
+
     if (isset($_POST['option']) && $_POST['option']==48){
         $data=$instGasto->maxProd();
     }
+
+    if (isset($_POST['option']) && $_POST['option']==49){
+        $data=$instGasto->valorMaxProdRangodeFecha();
+    }
+    
     print json_encode($data, JSON_UNESCAPED_UNICODE);
+
 }else{
     session_start(['name'=>'PT']);
     session_destroy();

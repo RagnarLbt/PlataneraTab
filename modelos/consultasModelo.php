@@ -130,21 +130,14 @@ protected function rendimientoRango_modelo($idProd, $fecha1, $fecha2){
 }
     //Grafica datos en y (peso)
 protected function rendimientoRangoY_modelo($idProd,$fecha1, $fecha2){
-    $query=mainModel::conectar()->prepare("SELECT round( fruta.peso_kg,2) as peso from fruta 
-    INNER join productor_fruta on fruta.id=productor_fruta.id_fruta
-    WHERE fruta.id_productores=$idProd and productor_fruta.fecha_compra BETWEEN '$fecha1' and '$fecha2'
-    GROUP BY fruta.id_embarque, fruta.id_productores");
+    $query=mainModel::conectar()->prepare("SELECT embarque.id, IFNULL(ROUND(fruta.peso_kg,2), 0) as peso FROM fruta RIGHT JOIN embarque ON embarque.id = fruta.id_embarque WHERE fruta.id_productores=$idProd AND embarque.fecha_inicio BETWEEN '$fecha1' and '$fecha2' AND embarque.fecha_fin BETWEEN '$fecha1' and '$fecha2' ORDER BY embarque.id");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
 //Grafica datos x (id embarque)    
 protected function rendimientoRangoX_modelo($idProd, $fecha1, $fecha2){
-    $query=mainModel::conectar()->prepare("SELECT fruta.id_embarque as fecha from fruta
-    INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta
-    INNER JOIN productores on fruta.id_productores=productores.id
-    WHERE fruta.id_productores=$idProd and productor_fruta.fecha_compra BETWEEN '$fecha1' and '$fecha2'
-    GROUP BY fruta.id_embarque, fruta.id_productores");
+    $query=mainModel::conectar()->prepare("SELECT embarque.id as fecha FROM fruta RIGHT JOIN embarque ON embarque.id = fruta.id_embarque WHERE fruta.id_productores=$idProd AND embarque.fecha_inicio BETWEEN '$fecha1' and '$fecha2' AND embarque.fecha_fin BETWEEN '$fecha1' and '$fecha2' ORDER BY embarque.id");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -166,8 +159,7 @@ protected function rendimientoHistorial_modelo($idProd){
 
 //Grafica historial datos en y (peso)
 protected function rendimientoHistorialY_modelo($idProd){
-    $query=mainModel::conectar()->prepare("SELECT embarque.id, IFNULL(round(fruta.peso_kg,2),0) as peso from fruta 
-    RIGHT JOIN embarque on fruta.id_embarque=embarque.id and fruta.id_productores= $idProd order by embarque.id");
+    $query=mainModel::conectar()->prepare("SELECT embarque.id, IFNULL(round(fruta.peso_kg,2),0) as peso from fruta RIGHT JOIN embarque on fruta.id_embarque=embarque.id and fruta.id_productores= $idProd order by embarque.id");
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -38,18 +38,26 @@ class consultasControlador extends consultasModelo{
    //valor maximo de fruta  
 
     public function maxProd(){
-       
         $sql=mainModel::ejecutar_consulta_simple("SELECT max(peso_kg) as m from fruta");
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function valorMaxProdRangodeFecha(){
+        $fecha1=$_POST['fecha_uno'];
+        $fecha2=$_POST['fecha_dos'];
+        $sql=mainModel::ejecutar_consulta_simple("SELECT max(peso_kg) as m from fruta INNER JOIN productor_fruta on fruta.id=productor_fruta.id_fruta WHERE productor_fruta.fecha_compra BETWEEN '$fecha1' and '$fecha2'");
+        return $sql->fetchAll(PDO::FETCH_ASSOC);   
+    }
+
     public function consultaEmbarque2_controlador(){
         $id = $_POST['id'];
         $id2 = $_POST['id2'];
+       
        if($id!=0 && $id2!=0){
-            $sql= consultasModelo::consultaRangoE($id, $id2);
+            $sql=consultasModelo::consultaRangoE($id, $id2);
             return $sql; 
        }else {
-            $sql= consultasModelo::consultaEmbarque2_modelo($id);
+            $sql=consultasModelo::consultaEmbarque2_modelo($id);
             return $sql; 
        }
          
@@ -195,7 +203,6 @@ class consultasControlador extends consultasModelo{
     }
     //Grafica datos en x (id embarque)
     public function rendimientoHistorialX_controlador(){
-
         $idProd = $_POST['idProd2'];
         $sql=consultasModelo::rendimientoHistorialX_modelo($idProd);
         return $sql;
@@ -541,6 +548,7 @@ class consultasControlador extends consultasModelo{
 
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     public function listarPealadorBolsa(){
         $idPel=$_POST["idPel"];
         $idEmb=$_POST["idEmb"];

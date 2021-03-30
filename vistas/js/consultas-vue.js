@@ -1,5 +1,3 @@
-
-var url_consultas="http://localhost/PLATANERATAB/ajax/consultasAjax.php";
 const consultas =new Vue({
   el:'#gastos',
   data:{
@@ -101,7 +99,7 @@ const consultas =new Vue({
     listaYEmb2:[],
     c2y:[],
 
- //Aguinaldo
+  //Aguinaldo
     listAguiEmb:[],
     aY:[],
     aX:[],
@@ -113,51 +111,50 @@ const consultas =new Vue({
     afX:[],
     aguinaldoYfech:[],
     aguinaldoXfech:[],
-//Pago a peladores
-  listPelFech:[],
-  listPelEmb:[],
+  //Pago a peladores
+    listPelFech:[],
+    listPelEmb:[],
 
-  ppY:[],
-  ppX:[],
-  listaPagoPelY:[],
-  listaPagoPelX:[],
+    ppY:[],
+    ppX:[],
+    listaPagoPelY:[],
+    listaPagoPelX:[],
 
-  ppfY:[],
-  ppfX:[],
-  listaPagoPelFechaY:[],
-  listaPagoPelFechaX:[],
-  totalpago:0,
+    ppfY:[],
+    ppfX:[],
+    listaPagoPelFechaY:[],
+    listaPagoPelFechaX:[],
+    totalpago:0,
 
-//Abonos de productores
-
-  listAboEmb:[],
-  listAboFech:[],
-//Rendimiento de embarque 
+  //Abonos de productores
+    listAboEmb:[],
+    listAboFech:[],
+  //Rendimiento de embarque 
     listaRE:[],
     idPel:0,
-//Reportes
+  //Reportes
     id_reporte:0,
     listaDatReporte: [],
-//Grafica Bolsas peladores
-  t1Y:[],
-  t1X:[],
-  listat1Y:[],
-  listat1X:[],
-  t2Y:[],
-  t2X:[],
-  listat2Y:[],
-  listat2X:[],
+  //Grafica Bolsas peladores
+    t1Y:[],
+    t1X:[],
+    listat1Y:[],
+    listat1X:[],
+    t2Y:[],
+    t2X:[],
+    listat2Y:[],
+    listat2X:[],
 
-//Pago Bolseros
-  pbY:[],
-  pbX:[],
-  listarPagoBolseroY:[],
-  listarPagoBolseroX:[],
+  //Pago Bolseros
+    pbY:[],
+    pbX:[],
+    listarPagoBolseroY:[],
+    listarPagoBolseroX:[],
 
-  pbfY:[],
-  pbfX:[],
-  listarPagoBolseroFechaY:[],
-  listarPagoBolseroFechaX:[],
+    pbfY:[],
+    pbfX:[],
+    listarPagoBolseroFechaY:[],
+    listarPagoBolseroFechaX:[],
 
 },
 methods:{
@@ -176,7 +173,7 @@ methods:{
     },
     btnConsultaT1(idPel,idEmb, idEmb2){
       if(idEmb!=0 && idPel!=0){
-        this.listarPeladoresBolsas(idPel,idEmb, idEmb2);
+        this.listarPeladoresBolsas(idPel, idEmb, idEmb2);
         this.listarDatosT1Y(idPel,idEmb, idEmb2);
         this.listarDatosT1X(idPel,idEmb, idEmb2);
         
@@ -222,7 +219,7 @@ methods:{
         
       });
     },
-//Bolseros pagos
+  //Bolseros pagos
     btnConsultaTBol(idBol,idEmb, idEmb2){
       if(idEmb!=0 && idBol!=0){
         this. listaBolEmbarque(idBol,idEmb, idEmb2);
@@ -380,7 +377,6 @@ methods:{
       }
     },
     btnConsultaP2(idProd, fecha1p2, fecha2p2){
-      
       if(idProd!=0 && fecha1p2!='' && fecha2p2!=''){
           this.listarProd2(idProd, fecha1p2, fecha2p2);
           this.listarDatosYProd2(idProd, fecha1p2, fecha2p2);
@@ -648,13 +644,11 @@ descargarGrafica(id, nombre){
    },
    //Nuevas consultas
    btnGraficaP2(p, f1, f2){
-     this.cargarGraficaL(this.p1, this.p2, 'Total Kilos' ,'graficaP2','Gráfica del productor: '+p+' entre las fechas: '+f1+' a '+f2+'');
+     this.cargarGraficaProdRangFecha(this.p1, this.p2, 'Total Kilos', 'graficaP2', 'Gráfica del productor: '+p+' entre las fechas: '+f1+' a '+f2+'', this.max);
    },
    btnGraficaP3(){
-    // this.cargarGraficaL(this.p3, this.p4, 'Kilos', 'graficaP3');
-     this.cargarGraficaProm(this.p3,this.p4, this.prom,'Fruta', 'graficaP3', 'Historial de  productor: '+this.nombreGrafica+'',this.max );
+     this.cargarGraficaProm(this.p3,this.p4, this.prom,'Fruta', 'graficaP3', 'Historial de  productor: '+this.nombreGrafica+'', this.max);
      this.cargarGraficaL(this.pr3, this.p4, 'Rendimiento', 'graficaRend','Rendimiento productor: '+this.nombreGrafica+' ');
-
    },
    btnGraficaP4(){
      this.cargarGraficaL(this.p5, this.p6, 'Peso fruta', 'graficaP4','');
@@ -735,7 +729,7 @@ btnGraficaE(f1, f2){
 },
 
 
-    //Grafica con promedio
+  //Grafica con promedio
     cargarGraficaProm(datosY, datosX,promedio, texto, id, titulo, max){
       var ctx = document.getElementById(id).getContext('2d');
       if (window.graficaD) {
@@ -751,40 +745,78 @@ btnGraficaE(f1, f2){
           data: {
             labels: datosX,
             datasets: [{
-            label: texto,
-            lineTension:0,
-            borderColor: 'rgb(51, 184, 255)',
-            data:datosY
-        },
-        {
+              label: texto,
+              lineTension:0,
+              borderColor: 'rgb(51, 184, 255)',
+              data:datosY
+            },
+            {
             label: 'Promedio: '+promedio+'',//Este es el nombre en la legenda
             fill: false, //Esto hace que no se rellene el area debajo de la línea
             radius: 0,//Esto hace que no se ven puntos para cada dato
             borderColor: 'rgb(255, 0, 0)',
             pointHitRadius: 0,//Esto evita que el tooltip aparezca cuando se pase el cursor encima de la línea
             data: datosX.map( label=>(promedio))//Este map crea un array del tamaño de usuarios con el valor que especifiques para la variable media
-        }]
+          }]
         },
-          options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        suggestedMin: 0,
-                        suggestedMax: max,
-                        stepSize: 100
-                    }
-                }]
-            },
-            title: {
-              display: true,
-              text: titulo
-            }
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                suggestedMax: max,
+                stepSize: 100
+              }
+            }]
           },
+          title: {
+            display: true,
+            text: titulo
+          }
+        },
         
-       
+
       });
     },
-    cargarGraficaL(datosY, datosX, texto , id,titulo){
+    cargarGraficaProdRangFecha(datosY, datosX, texto, id, titulo, max){
+      var ctx = document.getElementById(id).getContext('2d');
+      
+      if (window.graficaD) {
+        window.graficaD.clear();
+        window.graficaD.destroy();
+      }
+      
+      window.graficaD = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+        // The data for our dataset
+        data: {
+          labels: datosX,
+          datasets: [{
+            label: texto,
+            lineTension:0,
+            borderColor: 'rgb(51, 184, 255)',
+            data:datosY
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMin: 0,
+                suggestedMax: max,
+                stepSize: 100
+              }
+            }]
+          },
+          title: {
+            display: true,
+            text: titulo
+          }
+        },
+      });
+    },
+    cargarGraficaL(datosY, datosX, texto , id, titulo){
       var ctx = document.getElementById(id).getContext('2d');
       if(window.grafica){
         window.grafica.clear();
@@ -886,8 +918,7 @@ btnGraficaE(f1, f2){
     },
     listarEmbId(id, id2){
       axios.post(url_consultas,{option:2, id:id, id2:id2}).then(response =>{
-        this.listaId = response.data;
-        
+        this.listaId = response.data;        
       });
       axios.post(url_consultas,{option:1, id:id,  id2:id2}).then(response =>{
         this.datosGastos = response.data;
@@ -959,27 +990,34 @@ btnGraficaE(f1, f2){
     //Grafica datos Y
     listarDatosYProd2(idProd, fecha1p2, fecha2p2){
       this.p1=[];
+      this.max=[];
+
       axios.post(url_consultas,{option:17,idProd:idProd, fecha1p2:fecha1p2, fecha2p2:fecha2p2}).then(response=>{
         this.listaYProd2=response.data;
-
         for(cant of this.listaYProd2){
           this.p1.push(cant.peso);
         };
-        
       });
+
+      /* Valor Maxiomo del eje Y*/
+      axios.post(url_consultas,{option:49, fecha_uno: fecha1p2, fecha_dos: fecha2p2}).then(response=>{
+        this.max=response.data;
+
+        for(dat of response.data){
+          this.max=dat.m;
+        }
+      });
+
     },
     //Grafica datos x
     listarDatosXProd2:function(idProd, fecha1p2, fecha2p2){
       this.p2=[];
       axios.post(url_consultas,{option:18, idProd:idProd, fecha1p2:fecha1p2, fecha2p2:fecha2p2}).then(response=>{
         this.listaXProd2=response.data;
-          
 
         for(cant of this.listaXProd2){
           this.p2.push(cant.fecha);
-        };
-       
-
+        }
       });
     },
 
@@ -987,7 +1025,6 @@ btnGraficaE(f1, f2){
     listarProd3:function(idProd2){
       axios.post(url_consultas,{option:15, idProd2:idProd2}).then(response=>{
         this.listaP3=response.data;
-        
       });
   
     },
@@ -996,45 +1033,39 @@ btnGraficaE(f1, f2){
     listarDatosYProd3(idProd2){
       this.p3=[];
       this.pr3=[];
-     // this.max2=0;
+      this.max=[];
       axios.post(url_consultas,{option:19, idProd2:idProd2}).then(response=>{
         this.listaYProd3=response.data;
-            
 
-          for(row of this.listaYProd3){
-            this.p3.push(row.peso);
-          };
-          
+        for(row of this.listaYProd3){
+          this.p3.push(row.peso);
+        }
       });
-//valor maximo
-axios.post(url_consultas,{option:48}).then(response=>{
-  this.max=response.data;
-  
-    for(dat of response.data){
-        this.max=dat.m;
-    }
-    
-  
-});
-//-----------
+      
+      /* Valor Maxiomo del eje Y*/
+      axios.post(url_consultas,{option:48}).then(response=>{
+        this.max=response.data;
+        
+        for(dat of response.data){
+          this.max=dat.m;
+        }
+      });
+      
+      /* Rendimiento de la fruta */
       axios.post(url_consultas,{option:26, idProd2:idProd2}).then(response=>{
         this.listaYRend=response.data;
         
-
-          for(row of this.listaYRend){
-            this.pr3.push(row.rend);
-          };
-         
+        for(row of this.listaYRend){
+          this.pr3.push(row.rend);
+        };
       });
-      
+    
+      /* Promedio de compra de la frura */
       axios.post(url_consultas,{option:46, idProd2:idProd2}).then(response=>{
         this.prom=response.data;
-        
-          for(dat of response.data){
-              this.prom=dat.promedio;
-          }
-          
-        
+        for(dat of response.data){
+          this.prom=dat.promedio;
+        }
       });
 
    },
@@ -1042,14 +1073,11 @@ axios.post(url_consultas,{option:48}).then(response=>{
    listaProductoresC(id){
     
     axios.post(url_consultas,{option:47, id:id}). then(response =>{        
-      this.listaProductorCon = response.data;  
-      
+      this.listaProductorCon = response.data;
       this.nombreGrafica='';
       for(dat of response.data){
         this.nombreGrafica=dat.nombre;
       }
-  
-    
     });
   
    
@@ -1075,7 +1103,6 @@ axios.post(url_consultas,{option:48}).then(response=>{
       axios.post(url_consultas,{option:20, idProd2:idProd2}).then(response=>{
         this.listaXProd3=response.data;
         
-
         for(row of this.listaXProd3){
           this.p4.push(row.embarque);
         };
