@@ -1,218 +1,86 @@
-		<section class="full-width header-well">
-			<div class="full-width header-well-icon">
-				<i class="zmdi zmdi-truck"></i>
-			</div>
-			<div class="full-width header-well-text">
-				<h1 class="text-condensedLight">
-					Embarques
-				</h1>
+<?php if($_SESSION['tipo']==1){ ?>
+		<section class="container-fluid d-flex justify-content-center mt-4 mb-4">
+			<div class="row">
+				<div class="col-sm-12">
+					<h1 class="text-condensedLight"><i class="zmdi zmdi-case"></i> &nbsp;<?php echo COMPANY; ?></h1> 
+				</div>
 			</div>
 		</section>
 
-		<?php 
-			$fecha=date("Y-m-d");
-			$n="Algo";
-			require_once "./controladores/productorControlador.php";
-			$objProductor= new productorControlador();
-
-			$productorData=$objProductor->listaProductorControlador();
-
-			if($n==""){
-		?>
-		<div class="full-width divider-menu-h"></div>
-		<div class="mdl-grid">
-			<div class="mdl-cell mdl-cell--12-col">
-				<div class="full-width panel mdl-shadow--2dp">
-					<div class="full-width panel-tittle bg-primary text-center tittles">
-						Nuevo Embarque
+		<div class="container" id="empresa">
+			<h5 class="text-center">Datos generales de la Empresa, puede modificar los datos y despues guardar los cambios</h5>
+			<hr>
+			<div class="col-sm-12 mt-1 mb-2">
+				<h3>Precios y Pago</h3>
+				<table class="table table-hover table-sm table-light table-bordered">
+					<thead>
+						<tr class="thead-dark">
+							<th class="text-center" scope="col">Precio de Compra por Kg</th>
+							<th class="text-center" scope="col">Pago a Peladores</th>
+							<th class="text-center" scope="col">Pago a Bolseros</th>
+							<th class="text-center" scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="p in getPagos">
+							<td class="text-center">$ {{p.cantidad}}</td>
+							<td class="text-center">$ {{p.pago_pelador}}</td>
+							<td class="text-center">$ {{p.pago_bolsero}}</td>
+							<td class="text-center">
+								<div class="btn-group" role="group">
+									<button class="btn btn-success btn-sm" title="Modificar" @click="btnModificar(p.id_precio)"><i class="zmdi zmdi-refresh-sync"></i>&nbsp;Actualizar</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-12 mb-3">
+					<h3>Gastos</h3>
+					<div class="form-inline">
+						<label class="form-control-label col-sm-4 text-right">
+							Nuevo Tipo de Gasto
+						</label>
+						<input type="text" class="form-control col-sm-4" required name="gasto-reg" v-model="gastoNuevo" @keyup.enter="btnRegistroGasto()">
+						&nbsp;&nbsp;
+						<button @click="btnRegistroGasto()" class="btn btn-info"><i class="zmdi zmdi-save"></i>&nbsp; Guardar</button>
 					</div>
-					<div class="full-width panel-content">
-						<form>
-							<div class="mdl-grid">
-								<div class="mdl-cell mdl-cell--12-col">
-		                            <legend class="text-condensedLight text-center"><i class="zmdi zmdi-border-color"></i> &nbsp; DATOS DEL EMBARQUE</legend><br>
-		                        </div>
-		                        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet"></div>
-		                        <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-		                        	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-		                        		<input type="date" class="mdl-textfield__input" value="<?php echo $fecha; ?>">
-		                        		<label class="mdl-textfield__label"><i class="zmdi zmdi-truck"></i> &nbsp;Fecha de Inicio</label>
-										<span class="mdl-textfield__error">Fecha Invalida</span>
-		                        	</div>
-		                        </div>
-		                        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet"></div>
-							</div>
-							<p class="text-center">
-								<button class="mdl-button mdl-js-button bg-primary text-white" id="btn-addCompany">
-									<i class="zmdi zmdi-save"></i> &nbsp; Iniciar
-								</button>
-								<div class="mdl-tooltip" for="btn-addCompany">Iniciar Embarque</div>
-							</p>
-						</form>
-					</div>
+				</div>
+				<div class="col-sm-12 p-4 d-flex justify-content-center">
+					<table class="col-sm-8 table table-hover table-sm table-bordered">
+						<thead>
+							<tr class="thead-dark">
+								<th class="text-center" scope="col">#</th>
+								<th class="text-center" scope="col">Tipo de Gasto</th>
+								<th class="text-center" scope="col">Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="lis of listGastos">
+								<th class="text-center">{{lis.id_gasto}}</th>
+								<td class="text-left">{{lis.nombre}}</td>
+								<td class="text-center">
+									<div class="btn-group" role="group">
+										<button class="btn btn-success btn-sm" title="Editar" @click="btnUpdate(lis.id_gasto, lis.nombre)"><i class="zmdi zmdi-refresh-sync"></i>&nbsp;Actualizar</button>    
+										<!--button class="btn btn-danger btn-sm" title="Eliminar" @click="btnDelete(lis.id_gasto)"><i class="zmdi zmdi-delete"></i>&nbsp;Eliminar</button-->
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
+<?php }else{?>
 
-	<?php }else{ ?>
-		<div class="mdl-grid">
-			<div class="mdl-cell mdl-cell--12-col">
-				<div class="full-width panel mdl-shadow--2dp">
-					
-					<div class="mdl-tabs__tab-bar">
-						<a href="#tabNewPayment" class="mdl-tabs__tab is-active">PROVEEDOR</a>
-						<a href="#tabListBolseros" class="mdl-tabs__tab">LISTA DE BOLSEROS</a>
-						<a href="#tabListPeladores" class="mdl-tabs__tab">LISTA DE PELADORES</a>
-					</div> 
-					
-					<div class="mdl-tabs__panel is-active" id="tabNewPayment">
-						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--12-col">
-								<div class="full-width panel ">
-									<div class="full-width panel-content">
-										<form>
-											<div class="mdl-grid">
-												<div class="mdl-cell mdl-cell--4-col">
-													<div class="mdl-textfield mdl-js-textfield">
-														<select class="mdl-textfield__input" name="tipo-reg-trabaj">
-															<option value="" disabled="" selected="">Productores...</option>
-
-															<?php foreach ($productorData as $row) { ?>
-																<option value="<?php echo $row['id']; ?>"><?php echo $row['nombre']." ".$row['Ap_p']." ".$row['Ap_m']; ?></option>
-															<?php } ?>
-
-														</select>
-													</div>
-												</div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="NombreTrabajador" name="nombre-reg-trabaj" autofocus="">
-														<label class="mdl-textfield__label">Proveedor</label>
-														<span class="mdl-textfield__error">Proveedor</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="apellidoPaterno" name="app-reg-trabaj">
-														<label class="mdl-textfield__label" for="apellidoPaterno">Apellido Paterno</label>
-														<span class="mdl-textfield__error">Apellido invalido</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="apellidoMaterno" name="apm-reg-trabaj">
-														<label class="mdl-textfield__label" for="apellidoMaterno">Apellido Materno</label>
-														<span class="mdl-textfield__error">Apellido invalido</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col">
-													<div class="mdl-textfield mdl-js-textfield">
-														<select class="mdl-textfield__input" name="tipo-reg-trabaj">
-															<option value="" disabled="" selected="">Tipo de Trabajo</option>
-															<option value="2">Bosero</option>
-															<option value="1">Pelador</option>
-														</select>
-													</div>
-												</div>
-											    <!--div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="descriptionPayment">
-														<label class="mdl-textfield__label" for="descriptionPayment">Description</label>
-														<span class="mdl-textfield__error">Invalid description</span>
-													</div>
-											    </div mdl-button--fab mdl-js-ripple-effect mdl-button--colored-->
-											</div>
-											<p class="text-center">
-												<button class="mdl-button mdl-js-button bg-primary text-white" id="btn-addPayment">
-													&nbsp; Registrar &nbsp;
-													<i class="zmdi zmdi-save"></i>
-												</button>
-												<div class="mdl-tooltip" for="btn-addPayment">Registrar Trabajador</div>
-											</p>
-
-											<div class="RespuestaAjax"></div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> 
-					<div class="mdl-tabs__panel is-active" id="tabNewPayment">
-						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--12-col">
-								<div class="full-width panel ">
-									<div class="full-width panel-content">
-										<form>
-											<div class="mdl-grid">
-												<div class="mdl-cell mdl-cell--4-col">
-													<div class="mdl-textfield mdl-js-textfield">
-														<select class="mdl-textfield__input" name="tipo-reg-trabaj">
-															<option value="" disabled="" selected="">Productores...</option>
-
-															<?php foreach ($productorData as $row) { ?>
-																<option value="<?php echo $row['id']; ?>"><?php echo $row['nombre']." ".$row['Ap_p']." ".$row['Ap_m']; ?></option>
-															<?php } ?>
-
-														</select>
-													</div>
-												</div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="NombreTrabajador" name="nombre-reg-trabaj" autofocus="">
-														<label class="mdl-textfield__label">Proveedor</label>
-														<span class="mdl-textfield__error">Proveedor</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="apellidoPaterno" name="app-reg-trabaj">
-														<label class="mdl-textfield__label" for="apellidoPaterno">Apellido Paterno</label>
-														<span class="mdl-textfield__error">Apellido invalido</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-z0-9áéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="apellidoMaterno" name="apm-reg-trabaj">
-														<label class="mdl-textfield__label" for="apellidoMaterno">Apellido Materno</label>
-														<span class="mdl-textfield__error">Apellido invalido</span>
-													</div>
-											    </div>
-											    <div class="mdl-cell mdl-cell--4-col">
-													<div class="mdl-textfield mdl-js-textfield">
-														<select class="mdl-textfield__input" name="tipo-reg-trabaj">
-															<option value="" disabled="" selected="">Tipo de Trabajo</option>
-															<option value="2">Bosero</option>
-															<option value="1">Pelador</option>
-														</select>
-													</div>
-												</div>
-											    <!--div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
-													<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-														<input class="mdl-textfield__input" type="text" pattern="-?[A-Za-záéíóúÁÉÍÓÚ ]*(\.[0-9]+)?" id="descriptionPayment">
-														<label class="mdl-textfield__label" for="descriptionPayment">Description</label>
-														<span class="mdl-textfield__error">Invalid description</span>
-													</div>
-											    </div mdl-button--fab mdl-js-ripple-effect mdl-button--colored-->
-											</div>
-											<p class="text-center">
-												<button class="mdl-button mdl-js-button bg-primary text-white" id="btn-addPayment">
-													&nbsp; Registrar &nbsp;
-													<i class="zmdi zmdi-save"></i>
-												</button>
-												<div class="mdl-tooltip" for="btn-addPayment">Registrar Trabajador</div>
-											</p>
-
-											<div class="RespuestaAjax"></div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>					
-				</div>
-			</div>
+	<div class="container mt-5">
+		<h1 class="text-center">Página no encontrada</h1>
+		<p class="text-center">No cuneta con los permisos para ver el cotenido de la pagina que busca</p>
+		<div class="d-flex justify-content-center">
+			<img src="<?php echo SERVERURL; ?>vistas/assets/icons/banana_error.png" width="300" >
 		</div>
-	<?php } ?>
-	</section>
-</body>
-</html>
+	</div>
+
+<?php } ?>

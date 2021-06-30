@@ -1,8 +1,12 @@
 <?php
-	if ($peticionAjax) {
-		require_once"../core/configApp.php";
-	} else {
-		require_once "./core/configApp.php";
+	if(isset($pdf)){
+		require_once "../../core/configApp.php";
+	}else{
+		if ($peticionAjax) {
+			require_once"../core/configApp.php";
+		} else {
+			require_once "./core/configApp.php";
+		}
 	}
 
 	class mainModel{
@@ -18,12 +22,21 @@
 			return $respuesta;
 		}
 
-		protected function agregar_cuenta($datos){
-			
+		public function consulta($sql){
+			$respuesta=self::conectar()->prepare($sql);
+			$respuesta->execute();
+			return $respuesta;
+			$areglo=array();
+			while ($data=$respuesta->fetch()) {
+				$arreglo[]=$data;
+			}
+			return $arreglo;
 		}
 
-		protected function eliminar_cuenta($id){
-			
+		public function generaId($tabla, $embarque){
+			$sql=self::ejecutar_consulta_simple("SELECT COUNT(id) FROM `$tabla` WHERE id_embarque=$embarque");
+			$id=$sql->fetch();
+			return $embarque.''.($id[0]+1);
 		}
 
 		public function encryptar($string){
@@ -59,6 +72,46 @@
 			$cadena=str_ireplace("¿", "", $cadena);
 			$cadena=str_ireplace("?", "", $cadena);
 			return $cadena;
+		}
+
+		protected function sweet_alert($datos){
+			if($datos['Alerta']=="simple"){
+				$alerta="
+					<script>
+						Swal.fire({
+							title:'".$datos['Titulo']."',
+							text:'".$datos['Texto']."',
+							icon:'".$datos['Tipo']."',
+							backdrop: false
+						});
+					</script>";
+			}elseif($datos['Alerta']="recarga"){
+				$alerta="
+					<script>
+						Swal.fire({
+							title: '".$datos['Titulo']."',
+							text: '".$datos['Texto']."',
+							type: '".$datos['Tipo']."',
+							confirmButtonText: 'Aceptar'
+							}).then(function () {
+								location.reload();
+							});
+					</script>";
+			}elseif($datos['Alerta']="limpiar"){
+				$alerta="
+					<script>
+						Swal.fire({
+							title: '".$datos['Titulo']."',
+							text: '".$datos['Texto']."',
+							type: '".$datos['Ttipo']."',
+							confirmButtonText: 'Aceptar'
+							}).then(function () {
+								$('.FormularioAjax')[0].reset();
+							});
+					</script>";
+			}
+
+			return $alerta;
 		}
 
 	}

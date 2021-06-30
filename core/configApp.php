@@ -1,5 +1,5 @@
 <?php
-	const SERVER="localhost";
+	const SERVER="127.0.0.1";
 	const DATABASE="platanera";
 	const USER="root";
 	const PASSWORD="";

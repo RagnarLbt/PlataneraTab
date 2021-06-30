@@ -1,0 +1,6 @@
+{
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.accessibilityPageSize": 12,
+    "editor.fontSize": 15,
+    "files.autoSave": "afterDelay"
+}

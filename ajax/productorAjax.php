@@ -12,7 +12,7 @@
 		$intProductor= new productorControlador();
 
                 if(isset($_POST['option']) && $_POST['option'] == 1){
-                        echo $intProductor->registroProductorControlador();
+                        $data =$intProductor->registroProductorControlador();
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 2){
@@ -20,7 +20,7 @@
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 3){
-                	echo $intProductor->eliminarProductorControlador();
+                	$data = $intProductor->eliminarProductorControlador();
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 4){

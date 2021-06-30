@@ -12,7 +12,7 @@
 		$intTrabajador= new trabajadoresControlador();
 
 		if(isset($_POST['option']) && $_POST['option'] == 1){
-			echo $intTrabajador->registroTrabajadorControlador();
+			$data = $intTrabajador->registroTrabajadorControlador();
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 2){
@@ -20,7 +20,7 @@
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 3){
-                	echo $intTrabajador->eliminarTrabajadorControlador();
+                	$data = $intTrabajador->eliminarTrabajadorControlador();
                 }
 
                 if(isset($_POST['option']) && $_POST['option'] == 4){
@@ -33,6 +33,22 @@
 
                 if(isset($_POST['option']) && $_POST['option'] == 6){
                 	$data = $intTrabajador->listaGeneralControlador();
+                }
+
+                if(isset($_POST['option']) && $_POST['option'] == 7){
+                        $data = $intTrabajador->listaTostonControlador();
+                }
+
+                if(isset($_POST['option']) && $_POST['option'] == 8){
+                        $data = $intTrabajador->listaEmbarqueBolseroControlador();
+                }
+
+                if(isset($_POST['option']) && $_POST['option'] == 9){
+                        $data = $intTrabajador->listaEmbarquePeladorControlador();
+                }
+
+                if(isset($_POST['option']) && $_POST['option'] == 10){
+                        $data = $intTrabajador->listaEmbarqueTostonControlador();
                 }
 
                 print json_encode($data, JSON_UNESCAPED_UNICODE);

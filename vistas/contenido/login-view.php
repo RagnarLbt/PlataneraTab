@@ -1,23 +1,29 @@
-	<div class="login-wrap cover">
-		<div class="container-login">
-			<p class="text-center" style="font-size: 70px;">
-				<i class="zmdi zmdi-account-circle"></i>
-			</p>
-			<h4 class="text-center text-condensedLight">Iniciar Sesión</h4>
-			<!--form action="<?php echo SERVERURL; ?>home/"-->
-			<div id="login">
-				<div class="form-group">
-					<label>Nombre de Usuario</label>
-					<input type="text" class="form-control" v-model="userName" autofocus>
-				</div>
-				<div class="form-group">
-					<label>Contraseña</label>
-					<input type="password" v-model="userPass" class="form-control">
-				</div>
-				<div class="form-group col-sm-4 mx-auto">
-					<button class="btn bg-primary text-white" @click="btnIniciar()">Ingresar</button>
-				</div>
+	<div class="full-box login-container cover">
+		<form action="" method="POST" autocomplete="off" class="logInForm">
+			<p class="text-center text-muted"><i class="zmdi zmdi-account-circle zmdi-hc-5x"></i></p>
+			<p class="text-center text-muted text-uppercase">Inicia sesión</p>
+			<div class="form-group label-floating">
+				<label class="control-label" for="UserName">Usuario</label>
+				<input required="" class="form-control" id="UserName" name="usuario" type="text" autofocus="" style="color: #2e7d32;">
+				<!--p class="help-block">Escribe tú nombre de usuario</p-->
 			</div>
-			<!--/form-->
-		</div>
+			<div class="form-group label-floating">
+				<label class="control-label" for="UserPass">Contraseña</label>
+				<input required="" class="form-control" id="UserPass" name="clave" type="password" style="color: #2e7d32;">
+				<!--p class="help-block">Escribe tú contraseña</p-->
+			</div>
+			<div class="form-group text-center">
+				<button class="btn btn-danger">Iniciar Sesión</button>
+			</div>
+		</form>
 	</div>
+	
+
+	<?php
+	if (isset($_POST['usuario']) && isset($_POST['clave'])) {
+		require_once "./controladores/loginControlador.php";
+		$login= new loginControlador();
+		echo $login->iniciar_sesion_controlador();
+	}
+	
+	?>

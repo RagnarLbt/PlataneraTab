@@ -15,7 +15,7 @@ $_POST= json_decode(file_get_contents("php://input"), true);
             }
 
             if (isset($_POST['option'])&& $_POST['option']== 2){
-                echo $instAdmin->eliminar_admin_controlador();
+                echo $instAdmin->eliminarAdminControlador();
             }
 
             if (isset($_POST['option'])&& $_POST['option']== 3){
@@ -23,7 +23,15 @@ $_POST= json_decode(file_get_contents("php://input"), true);
             }
 
             if (isset($_POST['option'])&& $_POST['option']== 4){
-               $data=$instAdmin->buscar_admin_controlador();
+               echo $instAdmin->editar_admin_controlador();
+            }
+            
+            if (isset($_POST['option'])&& $_POST['option']== 5){
+                $data = $instAdmin->editar_capturista_controlador();
+            }
+
+            if (isset($_POST['option'])&& $_POST['option']== 6){
+               $data = $instAdmin->editar_pass_controlador();
             }
 
             print json_encode($data, JSON_UNESCAPED_UNICODE);

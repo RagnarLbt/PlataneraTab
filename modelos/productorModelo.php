@@ -8,35 +8,32 @@
 	class productorModelo extends mainModel{
 
 		protected function registroProductorModelo($datos){
-			$query=mainModel::conectar()->prepare("call addProductores(:Nombre, :ApP, :ApM)");
+			$query=mainModel::conectar()->prepare("INSERT INTO `productores`(`nombre`, `Ap_p`, `Ap_m`, `edad`, `telefono`, `direccion`, `no_cuenta`, `foto`) VALUES (:Nombre, :ApP, :ApM, :Edad, :Tel, :Dir, :Cuenta, :Foto)");
 			$query->bindParam(":Nombre", $datos['Nombre']);
 			$query->bindParam(":ApP", $datos['ApP']);
 			$query->bindParam(":ApM", $datos['ApM']);
+            $query->bindParam(":Edad", $datos['Edad']);
+            $query->bindParam(":Dir", $datos['Dir']);
+            $query->bindParam(":Tel", $datos['Tel']);
+            $query->bindParam(":Cuenta", $datos['Cuenta']);
+            $query->bindParam(":Foto", $datos['Foto']);
 			$query->execute();
 			return $query;
-			/* INSERT INTO `productores` (`id`, `nombre`, `Ap_p`, `Ap_m`) VALUES
-(1, 'ALE', 'LOPEZ', 'CERVERA'),
-(8, 'ALBERT', 'RAMOS', 'GONZALEZ'),
-(9, 'ADAN', 'ESCOBAR', 'R'),
-(12, 'EJEMPLO 1', 'EXAMPLE 1', 'RAMZ'),
-(15, 'EJEMPLO', 'EXAMPLE', 'RAMZ'),
-(16, 'JUAN', 'LUNA', 'DOMINGUEZ'),
-(17, 'LEONARDO', 'GUTIERREZ', 'MENDOSA'),
-(18, 'CAMILA', 'RAMIREZ', 'CAMPOS'),
-(19, 'MIRANDA', 'JIMENEZ', 'CRUZ'),
-(20, 'DANIEL', 'LUNA', 'PEREZ'),
-(21, 'luis', 'ramos', 'cervera'); */
-			
 		}
 
 		protected function actualizarProductorModelo($datos){
-			$query=mainModel::conectar()->prepare("call actualizarPro(:Id, :Nombre, :ApP, :ApM)");
+			$query=mainModel::conectar()->prepare("UPDATE `productores` SET `nombre`=:Nombre,`Ap_p`=:ApP,`Ap_m`=:ApM,`edad`=:Edad,`telefono`=:Tel,`direccion`=:Dir,`no_cuenta`=:Cuenta, `foto`=:Foto WHERE id = :Id");
 			$query->bindParam(":Id", $datos['Id']);
-			$query->bindParam(":Nombre", $datos['Nombre']);
-			$query->bindParam(":ApP", $datos['ApP']);
-			$query->bindParam(":ApM", $datos['ApM']);
+            $query->bindParam(":Nombre", $datos['Nombre']);
+            $query->bindParam(":ApP", $datos['ApP']);
+            $query->bindParam(":ApM", $datos['ApM']);
+            $query->bindParam(":Edad", $datos['Edad']);
+            $query->bindParam(":Dir", $datos['Dir']);
+            $query->bindParam(":Tel", $datos['Tel']);
+            $query->bindParam(":Cuenta", $datos['Cuenta']);
+            $query->bindParam(":Foto", $datos['Foto']);
         	$query->execute();
-        	return $query->fetchAll(PDO::FETCH_ASSOC);
+        	return $query;
 		}
 
 		protected function eliminarProductorModelo($id){

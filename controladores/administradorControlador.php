@@ -8,28 +8,27 @@
     class administradorControlador extends administradorModelo{
         
         public function agregar_admin_controlador(){
-            $user= mainModel::limpiar_Cadena(strtoupper($_POST['user']));
-            $pass1= mainModel::limpiar_Cadena(strtoupper($_POST['clave']));
-            $nombre= mainModel::limpiar_Cadena(strtoupper($_POST['nombre']));
-            $ap= mainModel::limpiar_Cadena(strtoupper($_POST['apellidos']));
-            $genero= mainModel::limpiar_Cadena($_POST['genero']);
-            $tipo= mainModel::limpiar_Cadena($_POST['tipo']);
-           
-                $datos=[
-                    "User"=>$user,
-                    "Password"=>$pass1,
-                    "Nombre"=>$nombre,
-                    "Apellidos"=>$ap,
-                    "Genero"=> $genero,
-                    "Tipo"=>$tipo
-                ];
+            $nombre= strtolower($_POST['nombre']);
+            $genero= $_POST['genero'];
+            $user= strtolower($_POST['user']);
+            $pass1= strtolower($_POST['clave']);
+            $tipo= strtolower($_POST['tipo']);
 
-                $sql=administradorModelo::agregar_admin_modelo($datos);
-                return $sql;
+            $datos=[
+                "User"=>$user,
+                "Password"=>mainModel::encryptar($pass1),
+                "Nombre"=>$nombre,
+                "Genero"=> $genero,
+                "Tipo"=>$tipo
+            ];
+
+            $sql=administradorModelo::agregar_admin_modelo($datos);
+            return $sql;
         }
 
-        public function eliminar_admin_controlador(){
-			$id = mainModel::limpiar_cadena($_POST['id']);
+        public function eliminarAdminControlador(){
+			$id = $_POST['id'];
+			
 			$sql=administradorModelo::eliminar_admin_modelo($id);
 			return $sql;
 		}
@@ -39,8 +38,41 @@
 			return $sql;
 		}
 
-		public function buscar_admin_controlador(){
-			$sql=administradorModelo::buscar_admin_modelo();
-			return $sql;
+		public function editar_admin_controlador(){
+            
+            $id=$_POST['id'];
+            $user= strtolower($_POST['user']);
+            $nombre= strtolower($_POST['nombre']);
+            $genero= $_POST['genero'];
+            $tipo= $_POST['tipo'];
+
+            $datos=[
+                "Id"=>$id,
+                "User"=>$user,
+                "Nombre"=>$nombre,
+                "Genero"=>$genero,
+                "Tipo"=>$tipo,
+            ];
+
+            $sql=administradorModelo::editar_admin_modelo($datos);
+            return $sql;
 		}
+
+        public function editar_capturista_controlador(){
+            $sql=administradorModelo::lista_capturista_modelo();
+            return $sql;
+        }
+
+        public function editar_pass_controlador(){
+            $id=$_POST['id'];
+            $pas1=mainModel::encryptar($_POST['p1']);
+
+            $sql=mainModel::ejecutar_consulta_simple("UPDATE `usuario` SET `password`='$pas1' WHERE `id`=$id");
+
+            if($sql->rowCount()>=1){
+                return "Ok";
+            }else{
+                return $sql;
+            }
+        }
     }

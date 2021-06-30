@@ -1,4 +1,4 @@
 <?php
 	const SERVERURL="http://localhost/PLATANERATAB/";
-	const COMPANY="PLATANERA TAB";
+	const COMPANY="AGROEXPORTACIONES CHONTALPA";
 	date_default_timezone_set ("America/Mexico_City");
